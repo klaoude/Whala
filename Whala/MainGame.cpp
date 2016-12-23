@@ -9,10 +9,6 @@
 #include <KlaoudeEngine\KlaoudeEngine.h>
 #include <KlaoudeEngine\Timing.h>
 
-const float HUMAN_SPEED = 1.0f;
-const float ZOMBIE_SPEED = 1.3f;
-const float PLAYER_SPEED = 10.0f;
-
 MainGame::MainGame() :
 	m_screenWidth(1024),
 	m_screenHeight(768),
