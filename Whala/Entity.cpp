@@ -91,12 +91,12 @@ bool Entity::isGrounded(const std::vector<std::string>& levelData)
 		return false;
 
 	for each(glm::vec2 collide in collideTilePos)
-		if (checkTile(collide))
+		if (checkTileGround(collide))
 			return true;
 	return false;
 }
 
-bool Entity::checkTile(glm::vec2 tilePos)
+bool Entity::checkTileGround(glm::vec2 tilePos)
 {
 	const float TILE_RADIUS = float(TILE_WIDTH) / 2.0f;
 	const float MIN_DIST_Y = m_sizeY / 2.f + TILE_RADIUS;
@@ -115,6 +115,25 @@ bool Entity::checkTile(glm::vec2 tilePos)
 	}
 }
 
+bool Entity::checkTileTop(glm::vec2 tilePos)
+{
+	const float TILE_RADIUS = float(TILE_WIDTH) / 2.0f;
+	const float MIN_DIST_Y = m_sizeY / 2.f + TILE_RADIUS;
+
+	glm::vec2 centerPlayerPos = m_position + glm::vec2(m_sizeX / 2.f, m_sizeY / 2.f);
+	glm::vec2 distVec = centerPlayerPos - tilePos;
+
+	float ydepth = MIN_DIST_Y - abs(distVec.y);
+
+	if (ydepth > 0)
+	{
+		if (distVec.y < 0)
+			return true;
+		else
+			return false;
+	}
+}
+
 bool Entity::isPlafon(const std::vector<std::string>& levelData)
 {
 	std::vector<glm::vec2> collideTilePos;
@@ -125,7 +144,7 @@ bool Entity::isPlafon(const std::vector<std::string>& levelData)
 		return false;
 
 	for each(glm::vec2 collide in collideTilePos)
-		if (checkTile(collide))
+		if (checkTileTop(collide))
 			return true;
 	return false;
 }

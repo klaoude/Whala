@@ -39,7 +39,7 @@ void Player::init(glm::vec2 speed,
 void Player::update(const std::vector<std::string>& levelData, float deltaTime)
 {
 	m_direction = glm::vec2(1.f, 0.f);
-	m_jumpForce = 0.06 * deltaTime;
+	m_jumpForce = 2 * deltaTime;
 	if (m_isJumping)
 	{
 		if (m_dJumpForce > 0)
@@ -75,6 +75,7 @@ void Player::update(const std::vector<std::string>& levelData, float deltaTime)
 		m_speed.y = 0;
 		m_dJumpForce = 0;
 	}
+
 	std::cout << m_speed.y << std::endl;
 
 	collideWithLevel(levelData);	

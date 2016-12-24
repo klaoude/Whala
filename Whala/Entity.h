@@ -23,7 +23,8 @@ protected:
 	void collideWithTile(glm::vec2 tilePos);
 
 	bool isGrounded(const std::vector<std::string>& levelData);
-	bool checkTile(glm::vec2 tilePos);
+	bool checkTileGround(glm::vec2 tilePos);
+	bool checkTileTop(glm::vec2 tilePos);
 
 	bool isPlafon(const std::vector<std::string>& levelData);
 
