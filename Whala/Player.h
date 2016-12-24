@@ -22,8 +22,8 @@ public:
 	void update(float deltaTime, const std::vector<std::string>& levelData);
 
 	bool collideWithLevel(const std::vector<std::string>& levelData);
-	void jump(float deltaTime);
-	void applyForce(float deltaTime);
+	void jump(float deltaTime, const std::vector<std::string>& levelData);
+	void applyForce(float deltaTime, const std::vector<std::string>& levelData);
 
 	glm::vec2 getPosition() { return m_position; }
 

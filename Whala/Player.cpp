@@ -45,16 +45,18 @@ void Player::draw(KlaoudeEngine::SpriteBatch& spritebatch)
 void Player::update(float deltaTime, const std::vector<std::string>& levelData)
 {
 	if (m_inputManager->isKeyDown(SDLK_s))
-		m_acc.y -= 0.1 * deltaTime;
+		m_acc.y -= 0.01 * deltaTime;
 	else if (m_inputManager->isKeyDown(SDLK_z))
-		jump(deltaTime);
+		jump(deltaTime, levelData);
 	if (m_inputManager->isKeyDown(SDLK_q))
-		m_acc.x -= 4.0f * deltaTime;
+		m_acc.x -= 4 * deltaTime;
 	else if (m_inputManager->isKeyDown(SDLK_d))
-		m_acc.x += 4.0f * deltaTime;
+		m_acc.x += 4 * deltaTime;
 
 	m_direction = glm::vec2(1, 0);	
-	applyForce(deltaTime);
+
+
+	applyForce(deltaTime, levelData);
 
 	if (isGrounded(levelData))
 		std::cout << "Bite" << std::endl;
@@ -62,21 +64,27 @@ void Player::update(float deltaTime, const std::vector<std::string>& levelData)
 	collideWithLevel(levelData);	
 }
 
-void Player::applyForce(float deltaTime)
+void Player::applyForce(float deltaTime, const std::vector<std::string>& levelData)
 {
-	gravity = -0.04 * deltaTime;
+	gravity = -0.001 * deltaTime;
+
 	m_acc.y += gravity;
+	if (isGrounded(levelData))
+		m_acc.y -= gravity;
+
 	m_speed += m_acc;
+
 	m_position += m_speed;
+
 	m_acc *= 0;
 	m_speed.x = 0;
 }
 
-void Player::jump(float deltaTime)
+void Player::jump(float deltaTime, const std::vector<std::string>& levelData)
 {
-	if (m_acc.y > 0)
-		return;
-	m_acc.y += 0.1 * deltaTime;
+	//if (!isGrounded(levelData))
+	//	return;
+	m_acc.y += 0.01 * deltaTime;
 }
 
 bool Player::collideWithLevel(const std::vector<std::string>& levelData)
