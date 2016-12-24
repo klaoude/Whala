@@ -8,6 +8,9 @@
 
 #include <KlaoudeEngine/RessourceManager.h>
 
+#include <ctime>
+#include <chrono>
+
 Player::Player() : m_inputManager(nullptr)
 {
 }
@@ -45,38 +48,47 @@ void Player::draw(KlaoudeEngine::SpriteBatch& spritebatch)
 void Player::update(float deltaTime, const std::vector<std::string>& levelData)
 {
 	if (m_inputManager->isKeyDown(SDLK_s))
-		m_acc.y -= 0.1 * deltaTime;
+		m_position.y -= m_speed.x * deltaTime;
+
 	else if (m_inputManager->isKeyDown(SDLK_z))
-		jump(deltaTime);
+	{
+		if (!m_isJumping)
+		{
+			t0 = time;
+			pos0 = m_position;
+			speed0 = m_speed;
+			speed0.y += 1.5f;
+			m_isJumping = true;
+		}
+	}
 	if (m_inputManager->isKeyDown(SDLK_q))
-		m_acc.x -= 4.0f * deltaTime;
+		m_position.x -= m_speed.x * deltaTime;
 	else if (m_inputManager->isKeyDown(SDLK_d))
-		m_acc.x += 4.0f * deltaTime;
+		m_position.x += m_speed.x * deltaTime;
+
+	if (m_isJumping)
+	{
+		t = time - t0;
+		m_position.y = pos0.y + speed0.y*t - t*t*0.005f;
+
+		if (isGrounded(levelData))
+			m_isJumping = false;
+	}
 
 	m_direction = glm::vec2(1, 0);	
-	applyForce(deltaTime);
+	applyForce(deltaTime, levelData);
 
 	if (isGrounded(levelData))
 		std::cout << "Bite" << std::endl;
 
 	collideWithLevel(levelData);	
+	time++;
 }
 
-void Player::applyForce(float deltaTime)
+void Player::applyForce(float deltaTime, const std::vector<std::string>& levelData)
 {
-	gravity = -0.04 * deltaTime;
-	m_acc.y += gravity;
-	m_speed += m_acc;
-	m_position += m_speed;
-	m_acc *= 0;
-	m_speed.x = 0;
-}
-
-void Player::jump(float deltaTime)
-{
-	if (m_acc.y > 0)
-		return;
-	m_acc.y += 0.1 * deltaTime;
+	gravity = -0.5f;
+	m_position.y += gravity;
 }
 
 bool Player::collideWithLevel(const std::vector<std::string>& levelData)

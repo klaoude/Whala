@@ -22,8 +22,7 @@ public:
 	void update(float deltaTime, const std::vector<std::string>& levelData);
 
 	bool collideWithLevel(const std::vector<std::string>& levelData);
-	void jump(float deltaTime);
-	void applyForce(float deltaTime);
+	void applyForce(float deltaTime, const std::vector<std::string>& levelData);
 
 	glm::vec2 getPosition() { return m_position; }
 
@@ -44,4 +43,9 @@ private:
 	KlaoudeEngine::ColorRGBA8 m_color;
 	glm::vec2 m_direction;
 	GLuint m_textureID;
+
+	bool m_isJumping = false;
+	int time = 0;
+	int t0 = 0, t = 0;
+	glm::vec2 pos0, speed0;
 };
