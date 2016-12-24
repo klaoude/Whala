@@ -47,12 +47,24 @@ void Player::draw(KlaoudeEngine::SpriteBatch& spritebatch)
 
 void Player::update(float deltaTime, const std::vector<std::string>& levelData)
 {
+	if (m_isJumping)
+	{
+		t = time - t0;
+		m_position.y = pos0.y + speed0.y*t - t*t*0.005f;
+
+		if (isGrounded(levelData))
+			m_isJumping = false;
+	}
+
+	m_direction = glm::vec2(1, 0);
+	applyForce(deltaTime, levelData);
+
 	if (m_inputManager->isKeyDown(SDLK_s))
 		m_position.y -= m_speed.x * deltaTime;
 
 	else if (m_inputManager->isKeyDown(SDLK_z))
 	{
-		if (!m_isJumping)
+		if (!m_isJumping && isGrounded(levelData))
 		{
 			t0 = time;
 			pos0 = m_position;
@@ -65,18 +77,6 @@ void Player::update(float deltaTime, const std::vector<std::string>& levelData)
 		m_position.x -= m_speed.x * deltaTime;
 	else if (m_inputManager->isKeyDown(SDLK_d))
 		m_position.x += m_speed.x * deltaTime;
-
-	if (m_isJumping)
-	{
-		t = time - t0;
-		m_position.y = pos0.y + speed0.y*t - t*t*0.005f;
-
-		if (isGrounded(levelData))
-			m_isJumping = false;
-	}
-
-	m_direction = glm::vec2(1, 0);	
-	applyForce(deltaTime, levelData);
 
 	if (isGrounded(levelData))
 		std::cout << "Bite" << std::endl;
