@@ -11,10 +11,9 @@
 #include <ctime>
 #include <chrono>
 
-Player::Player() : m_inputManager(nullptr)
+Player::Player() : m_inputManager(nullptr), Entity(SIZE_X, SIZE_Y)
 {
 }
-
 
 Player::~Player()
 {
@@ -36,16 +35,8 @@ void Player::init(glm::vec2 speed,
 	m_textureID = KlaoudeEngine::RessourceManager::getTexture("Textures/Player.png").id;
 }
 
-void Player::draw(KlaoudeEngine::SpriteBatch& spritebatch)
-{
-	const glm::vec4 uvRect(0.f, 0.f, 0.1f, 0.5f);
 
-	glm::vec4 destRect(m_position.x, m_position.y, SIZE_X, SIZE_Y);
-
-	spritebatch.draw(destRect, uvRect, m_textureID, 0.0f, m_color, m_direction);
-}
-
-void Player::update(float deltaTime, const std::vector<std::string>& levelData)
+void Player::update(const std::vector<std::string>& levelData, float deltaTime)
 {
 	if (m_isJumping)
 	{
@@ -89,68 +80,6 @@ void Player::applyForce(float deltaTime, const std::vector<std::string>& levelDa
 {
 	gravity = -0.5f;
 	m_position.y += gravity;
-}
-
-bool Player::collideWithLevel(const std::vector<std::string>& levelData)
-{
-	std::vector<glm::vec2> collideTilePos;
-
-	checkTilePosition(levelData, collideTilePos, m_position.x, m_position.y);
-	checkTilePosition(levelData, collideTilePos, m_position.x + SIZE_X, m_position.y);
-	checkTilePosition(levelData, collideTilePos, m_position.x, m_position.y + SIZE_Y);
-	checkTilePosition(levelData, collideTilePos, m_position.x + SIZE_X, m_position.y + SIZE_Y);
-
-	if (collideTilePos.size() == 0)
-		return false;
-
-	for each(glm::vec2 collide in collideTilePos)
-		collideWithTile(collide);
-
-	return true;
-}
-
-void Player::checkTilePosition(const std::vector<std::string>& levelData, std::vector<glm::vec2>& collideTilePos, float x, float y)
-{
-	glm::vec2 cornerPos = glm::vec2(floor(x / float(TILE_WIDTH)),
-		floor(y / float(TILE_WIDTH)));
-
-	if (cornerPos.x < 0 || cornerPos.x >= levelData[0].length() ||
-		cornerPos.y < 0 || cornerPos.y >= levelData.size())
-		return;
-
-	if (levelData[cornerPos.y][cornerPos.x] != '.')
-		collideTilePos.push_back(cornerPos * float(TILE_WIDTH) + glm::vec2(TILE_WIDTH / 2.0f));
-}
-
-void Player::collideWithTile(glm::vec2 tilePos)
-{
-	const float TILE_RADIUS = float(TILE_WIDTH) / 2.0f;
-	const float MIN_DIST_X = SIZE_X / 2.f + TILE_RADIUS;
-	const float MIN_DIST_Y = SIZE_Y / 2.f + TILE_RADIUS;
-
-	glm::vec2 centerPlayerPos = m_position + glm::vec2(SIZE_X / 2.f, SIZE_Y / 2.f);
-	glm::vec2 distVec = centerPlayerPos - tilePos;
-
-	float xdepth = MIN_DIST_X - abs(distVec.x);
-	float ydepth = MIN_DIST_Y - abs(distVec.y);
-
-	if (xdepth > 0 || ydepth > 0)
-	{
-		if (std::max(xdepth, 0.0f) < std::max(ydepth, 0.0f))
-		{
-			if (distVec.x < 0)
-				m_position.x -= xdepth;
-			else
-				m_position.x += xdepth;
-		}
-		else
-		{
-			if (distVec.y < 0)
-				m_position.y -= ydepth;
-			else
-				m_position.y += ydepth;
-		}
-	}
 }
 
 bool Player::isGrounded(const std::vector<std::string>& levelData)

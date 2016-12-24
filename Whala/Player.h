@@ -3,10 +3,12 @@
 #include <KlaoudeEngine/Camera2D.h>
 #include <KlaoudeEngine\SpriteBatch.h>
 
+#include "Entity.h"
+
 const float SIZE_X = 16;
 const float SIZE_Y = 20;
 
-class Player
+class Player : public Entity
 {
 public:
 	Player();
@@ -17,19 +19,11 @@ public:
 		KlaoudeEngine::InputManager* inputManager,
 		KlaoudeEngine::Camera2D* camera);
 
-	void draw(KlaoudeEngine::SpriteBatch& spritebatch);
+	void update(const std::vector<std::string>& levelData, float deltaTime) override;
 
-	void update(float deltaTime, const std::vector<std::string>& levelData);
-
-	bool collideWithLevel(const std::vector<std::string>& levelData);
 	void applyForce(float deltaTime, const std::vector<std::string>& levelData);
 
-	glm::vec2 getPosition() { return m_position; }
-
 private:
-	void checkTilePosition(const std::vector<std::string>& levelData, std::vector<glm::vec2>& collideTilePos, float x, float y);
-	void collideWithTile(glm::vec2 tilePos);
-
 	bool isGrounded(const std::vector<std::string>& levelData);
 	bool checkTile(glm::vec2 tilePos);
 
@@ -39,10 +33,6 @@ private:
 	float gravity;
 	glm::vec2 m_acc;
 	glm::vec2 m_speed;
-	glm::vec2 m_position;
-	KlaoudeEngine::ColorRGBA8 m_color;
-	glm::vec2 m_direction;
-	GLuint m_textureID;
 
 	bool m_isJumping = false;
 	int time = 0;

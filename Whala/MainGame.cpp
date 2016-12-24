@@ -96,7 +96,7 @@ void MainGame::gameLoop()
 		while (totalDeltaTime > 0.0f && i < MAX_PHYSICS_STEPS)
 		{
 			float deltaTime = std::min(totalDeltaTime, MAX_DELTA_TIME);
-			m_player->update(deltaTime, m_levels[0]->getLevelData());
+			m_player->update(m_levels[0]->getLevelData(), deltaTime);
 			totalDeltaTime -= deltaTime;
 			i++;
 		}
