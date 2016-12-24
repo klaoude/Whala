@@ -37,13 +37,13 @@ private:
 	KlaoudeEngine::Camera2D* m_camera;
 
 	float gravity;
-	glm::vec2 m_acc;
 	glm::vec2 m_speed;
 	glm::vec2 m_position;
 	KlaoudeEngine::ColorRGBA8 m_color;
 	glm::vec2 m_direction;
 	GLuint m_textureID;
-
+	float m_jumpForce;
+	float m_dJumpForce;
 	bool m_isJumping = false;
 	int time = 0;
 	int t0 = 0, t = 0;

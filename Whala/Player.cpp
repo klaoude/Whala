@@ -25,6 +25,7 @@ void Player::init(glm::vec2 speed,
 	KlaoudeEngine::InputManager* inputManager,
 	KlaoudeEngine::Camera2D* camera)
 {
+	
 	m_speed = speed;
 	m_position = position;
 	m_inputManager = inputManager;
@@ -47,14 +48,16 @@ void Player::draw(KlaoudeEngine::SpriteBatch& spritebatch)
 
 void Player::update(float deltaTime, const std::vector<std::string>& levelData)
 {
+	m_jumpForce = 0.06 * deltaTime;
 	if (m_isJumping)
 	{
-		t = time - t0;
-		m_position.y = pos0.y + speed0.y*t - t*t*0.005f;
-
-		if (isGrounded(levelData))
-			m_isJumping = false;
+		if (m_dJumpForce > 0)
+			m_dJumpForce -= 0.001 * deltaTime;
+		else
+			m_dJumpForce = 0;
 	}
+	else
+		m_dJumpForce = m_jumpForce;
 
 	m_direction = glm::vec2(1, 0);
 	applyForce(deltaTime, levelData);
@@ -63,33 +66,40 @@ void Player::update(float deltaTime, const std::vector<std::string>& levelData)
 		m_position.y -= m_speed.x * deltaTime;
 
 	else if (m_inputManager->isKeyDown(SDLK_z))
-	{
-		if (!m_isJumping && isGrounded(levelData))
-		{
-			t0 = time;
-			pos0 = m_position;
-			speed0 = m_speed;
-			speed0.y += 1.5f;
-			m_isJumping = true;
-		}
-	}
-	if (m_inputManager->isKeyDown(SDLK_q))
-		m_position.x -= m_speed.x * deltaTime;
-	else if (m_inputManager->isKeyDown(SDLK_d))
-		m_position.x += m_speed.x * deltaTime;
+		m_isJumping = true;
 
-	if (isGrounded(levelData))
-		std::cout << "Bite" << std::endl;
+	if (m_inputManager->isKeyDown(SDLK_q))
+		m_speed.x = -4 * deltaTime;
+	else if (m_inputManager->isKeyDown(SDLK_d))
+		m_speed.x = 4 * deltaTime;
+
+
+	applyForce(deltaTime, levelData);
+	if (isGrounded(levelData) && m_isJumping)
+		m_isJumping = false;
+
+	std::cout << m_speed.y << std::endl;
+
 
 	collideWithLevel(levelData);	
 	time++;
 }
 
+
+
 void Player::applyForce(float deltaTime, const std::vector<std::string>& levelData)
 {
-	gravity = -0.5f;
-	m_position.y += gravity;
+	gravity = -0.01f * deltaTime;
+	if (isGrounded(levelData))
+		m_speed.y -= 2*gravity;
+	m_speed.y += gravity;
+	if (m_isJumping)
+		m_speed.y += m_dJumpForce;
+	m_position += m_speed;
+	m_speed.x = 0;
 }
+
+
 
 bool Player::collideWithLevel(const std::vector<std::string>& levelData)
 {
