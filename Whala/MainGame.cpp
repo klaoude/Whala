@@ -52,7 +52,8 @@ void MainGame::initLevel()
 	m_levels.push_back(new Level("Levels/01.txt"));
 
 	m_player = new Player();
-	m_player->init(10.f, glm::vec2(0), &m_inputManager, &m_camera);
+	glm::vec2 speed(10.0f, 0);
+	m_player->init(speed, glm::vec2(1000, 750), &m_inputManager, &m_camera);
 }
 
 void MainGame::initShaders()

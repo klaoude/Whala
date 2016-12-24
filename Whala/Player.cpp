@@ -14,7 +14,7 @@ Player::~Player()
 {
 }
 
-void Player::init(float speed,
+void Player::init(glm::vec2 speed,
 	glm::vec2 position,
 	KlaoudeEngine::InputManager* inputManager,
 	KlaoudeEngine::Camera2D* camera)
@@ -41,14 +41,32 @@ void Player::draw(KlaoudeEngine::SpriteBatch& spritebatch)
 
 void Player::update(float deltaTime)
 {
-	if (m_inputManager->isKeyDown(SDLK_s))
-		m_position.y -= m_speed * deltaTime;
-	else if (m_inputManager->isKeyDown(SDLK_z))
-		m_position.y += m_speed * deltaTime;
-	if (m_inputManager->isKeyDown(SDLK_q))
-		m_position.x -= m_speed * deltaTime;
-	else if (m_inputManager->isKeyDown(SDLK_d))
-		m_position.x += m_speed * deltaTime;
 
+
+	if (m_inputManager->isKeyDown(SDLK_s))
+		m_acc.y -= 2;
+	else if (m_inputManager->isKeyDown(SDLK_z))
+		jump(deltaTime);
+	if (m_inputManager->isKeyDown(SDLK_q))
+		m_acc.x -= 2;
+	else if (m_inputManager->isKeyDown(SDLK_d))
+		m_acc.x += 2;
+
+	applyForce(deltaTime);
+	
 	m_direction = glm::vec2(1, 0);
+}
+
+void Player::applyForce(float deltaTime)
+{
+	m_acc.y += gravity;
+	m_speed += m_acc;
+	m_position += m_speed;
+}
+
+
+
+void Player::jump(float deltaTime)
+{	
+	
 }
