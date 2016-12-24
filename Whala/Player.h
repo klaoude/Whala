@@ -31,7 +31,6 @@ private:
 	KlaoudeEngine::Camera2D* m_camera;
 
 	float gravity;
-	glm::vec2 m_acc;
 	glm::vec2 m_speed;
 
 	bool m_isJumping = false;
