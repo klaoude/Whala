@@ -21,6 +21,7 @@ public:
 
 	void update(const std::vector<std::string>& levelData, float deltaTime) override;	
 
+	void jump(float deltaTime, const std::vector<std::string>& levelData);
 private:
 	KlaoudeEngine::InputManager* m_inputManager;
 	KlaoudeEngine::Camera2D* m_camera;	

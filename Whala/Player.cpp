@@ -37,7 +37,31 @@ void Player::init(glm::vec2 speed,
 
 void Player::update(const std::vector<std::string>& levelData, float deltaTime)
 {
-	m_direction = glm::vec2(1.f, 0.f);
+	if (m_inputManager->isKeyDown(SDLK_q))
+	{
+		m_speed.x = -4 * deltaTime;
+	}
+	else if (m_inputManager->isKeyDown(SDLK_d))
+	{
+		m_speed.x = 4 * deltaTime;
+	}
+	if (m_inputManager->isKeyDown(SDLK_s))
+		m_position.y -= m_speed.x * deltaTime;
+
+	else if (m_inputManager->isKeyDown(SDLK_z))
+		m_isJumping = true;
+
+	jump(deltaTime, levelData);
+
+	applyForce(deltaTime, levelData);
+
+	collideWithLevel(levelData);	
+
+	std::cout << m_speed.y << std::endl;
+}
+
+void Player::jump(float deltaTime, const std::vector<std::string>& levelData)
+{
 	m_jumpForce = 1.1f * deltaTime;
 	if (m_isJumping)
 	{
@@ -49,34 +73,14 @@ void Player::update(const std::vector<std::string>& levelData, float deltaTime)
 	else
 		m_dJumpForce = m_jumpForce;
 
-	if (m_inputManager->isKeyDown(SDLK_s))
-		m_position.y -= m_speed.x * deltaTime;
-
-	else if (m_inputManager->isKeyDown(SDLK_z))
-		m_isJumping = true;
-
-	if (m_inputManager->isKeyDown(SDLK_q))
-	{
-		m_speed.x = -4 * deltaTime;
-	}
-	else if (m_inputManager->isKeyDown(SDLK_d))
-	{
-		m_speed.x = 4 * deltaTime;
-	}
-
-	applyForce(deltaTime, levelData);
 	if (isGrounded(levelData) && m_isJumping)
 	{
 		m_isJumping = false;
 		m_speed.y = 0;
 	}
-		if (isPlafon(levelData))
+	if (isPlafon(levelData))
 	{
 		m_speed.y = 0;
 		m_dJumpForce = 0;
 	}
-
-	collideWithLevel(levelData);	
-
-	std::cout << m_speed.y << std::endl;
 }
