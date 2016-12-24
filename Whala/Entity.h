@@ -4,13 +4,15 @@
 
 #include <KlaoudeEngine\SpriteBatch.h>
 
+class Player;
+
 class Entity
 {
 public:
 	Entity(int sizeX, int sizeY);
 	virtual ~Entity();
 
-	virtual void update(const std::vector<std::string>& levelData, float deltaTime) = 0;
+	virtual void update(const std::vector<std::string>& levelData, float deltaTime, Player* player) = 0;
 
 	void draw(KlaoudeEngine::SpriteBatch& spriteBatch);
 

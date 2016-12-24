@@ -19,10 +19,14 @@ public:
 		KlaoudeEngine::InputManager* inputManager,
 		KlaoudeEngine::Camera2D* camera);
 
-	void update(const std::vector<std::string>& levelData, float deltaTime) override;	
+	void update(const std::vector<std::string>& levelData, float deltaTime, Player* player) override;
 
 	void jump(float deltaTime, const std::vector<std::string>& levelData);
+
+	int getHealth() { return m_health; }
 private:
 	KlaoudeEngine::InputManager* m_inputManager;
 	KlaoudeEngine::Camera2D* m_camera;	
+
+	int m_health = 100;
 };

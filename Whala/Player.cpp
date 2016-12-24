@@ -35,20 +35,20 @@ void Player::init(glm::vec2 speed,
 	m_textureID = KlaoudeEngine::RessourceManager::getTexture("Textures/Player.png").id;
 }
 
-void Player::update(const std::vector<std::string>& levelData, float deltaTime)
+void Player::update(const std::vector<std::string>& levelData, float deltaTime, Player* player)
 {
-	if (m_inputManager->isKeyDown(SDLK_q))
+	if (m_inputManager->isKeyDown(SDLK_LEFT))
 	{
 		m_speed.x = -4 * deltaTime;
 	}
-	else if (m_inputManager->isKeyDown(SDLK_d))
+	else if (m_inputManager->isKeyDown(SDLK_RIGHT))
 	{
 		m_speed.x = 4 * deltaTime;
 	}
-	if (m_inputManager->isKeyDown(SDLK_s))
+	if (m_inputManager->isKeyDown(SDLK_DOWN))
 		m_position.y -= m_speed.x * deltaTime;
 
-	else if (m_inputManager->isKeyDown(SDLK_z))
+	else if (m_inputManager->isKeyDown(SDLK_UP))
 		m_isJumping = true;
 
 	jump(deltaTime, levelData);

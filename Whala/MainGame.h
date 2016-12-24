@@ -5,6 +5,7 @@
 #include <KlaoudeEngine/Camera2D.h>
 #include <KlaoudeEngine/InputManager.h>
 #include <KlaoudeEngine/SpriteBatch.h>
+#include <KlaoudeEngine\SpriteFont.h>
 
 #include "Player.h"
 #include "Level.h"
@@ -31,12 +32,16 @@ private:
 	void gameLoop();
 	void processInput();
 	void drawGame();
+	void drawHud();
 
 	KlaoudeEngine::Window m_window;
 	KlaoudeEngine::GLSLProgram m_textureProgram;
 	KlaoudeEngine::InputManager m_inputManager;
 	KlaoudeEngine::Camera2D m_camera;
-	KlaoudeEngine::SpriteBatch m_playerSpriteBatch;
+	KlaoudeEngine::Camera2D m_hudCamera;
+	KlaoudeEngine::SpriteBatch m_entitySpriteBatch;
+	KlaoudeEngine::SpriteBatch m_hudSpriteBatch;
+	KlaoudeEngine::SpriteFont* m_spriteFont;
 
 	int m_screenWidth, m_screenHeight;
 	float m_fps;
