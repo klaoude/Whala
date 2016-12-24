@@ -43,10 +43,10 @@ void Entity::checkTilePosition(const std::vector<std::string>& levelData, std::v
 		floor(y / float(TILE_WIDTH)));
 
 	if (cornerPos.x < 0 || cornerPos.x >= levelData[0].length() ||
-		cornerPos.y < 0 || cornerPos.y >= levelData.size())
+		cornerPos.y < 1 || cornerPos.y >= levelData.size())
 		return;
 
-	if (levelData[cornerPos.y][cornerPos.x] != '.')
+	if (levelData[cornerPos.y-1][cornerPos.x] != '.')
 		collideTilePos.push_back(cornerPos * float(TILE_WIDTH) + glm::vec2(TILE_WIDTH / 2.0f));
 }
 

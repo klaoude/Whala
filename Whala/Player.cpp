@@ -50,8 +50,6 @@ void Player::update(const std::vector<std::string>& levelData, float deltaTime)
 	else
 		m_dJumpForce = m_jumpForce;
 
-	applyForce(deltaTime, levelData);
-
 	if (m_inputManager->isKeyDown(SDLK_s))
 		m_position.y -= m_speed.x * deltaTime;
 
