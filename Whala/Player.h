@@ -24,9 +24,11 @@ public:
 	void jump(float deltaTime, const std::vector<std::string>& levelData);
 
 	int getHealth() { return m_health; }
+	void takeDamage(float damage);
 private:
 	KlaoudeEngine::InputManager* m_inputManager;
 	KlaoudeEngine::Camera2D* m_camera;	
 
 	int m_health = 100;
+	int m_imunity = 0;
 };

@@ -28,6 +28,41 @@ bool Entity::collideWithLevel(const std::vector<std::string>& levelData)
 	return true;
 }
 
+bool Entity::collideWithEntity(Entity* entity)
+{
+	const float MIN_DIST_X = m_sizeX / 2.f;
+	const float MIN_DIST_Y = m_sizeY / 2.f;
+
+	glm::vec2 centerPosA = m_position + glm::vec2(m_sizeX / 2.f, m_sizeY / 2.f);
+	glm::vec2 centerPosB = entity->getPosition() + glm::vec2(MIN_DIST_X, MIN_DIST_Y);
+
+	glm::vec2 distVec = centerPosA - centerPosB;
+
+	float distance = glm::length(distVec);
+
+	float collisionDepthX = MIN_DIST_X - distance;
+	float collisionDepthY = MIN_DIST_Y - distance;
+
+	if (collisionDepthX > 0)
+	{
+		glm::vec2 collisionDepthVec = glm::normalize(distVec) * collisionDepthX;
+
+		m_position += collisionDepthVec / 2.0f;
+		entity->m_position -= collisionDepthVec / 2.0f;
+		return true;
+	}
+	else if (collisionDepthY > 0)
+	{
+		glm::vec2 collisionDepthVec = glm::normalize(distVec) * collisionDepthY;
+
+		m_position += collisionDepthVec / 2.0f;
+		entity->m_position -= collisionDepthVec / 2.0f;
+		return true;
+	}
+
+	return false;
+}
+
 void Entity::draw(KlaoudeEngine::SpriteBatch& spritebatch)
 {
 	const glm::vec4 uvRect(0.f, 0.f, 0.1f, 0.5f);
@@ -159,4 +194,32 @@ void Entity::applyForce(float deltaTime, const std::vector<std::string>& levelDa
 		m_speed.y += m_dJumpForce;
 	m_position += m_speed;
 	m_speed.x = 0;
+}
+
+void Entity::jump(float deltaTime, const std::vector<std::string>& levelData)
+{
+	m_jumpForce = 1.2f * deltaTime;
+	if (m_isJumping)
+	{
+		if (m_dJumpForce > 0)
+			m_dJumpForce -= 0.1 * deltaTime;
+		else
+			m_dJumpForce = 0;
+	}
+	else
+		m_dJumpForce = m_jumpForce;
+
+	if (isGrounded(levelData) && m_dJumpForce == 0)
+	{
+		m_isJumping = false;
+		m_speed.y = 0;
+		m_dJumpForce = 0;
+	}
+	else if (isGrounded(levelData) && !m_isJumping)
+		m_speed.y = 0;
+	if (isPlafon(levelData))
+	{
+		m_speed.y = 0;
+		m_dJumpForce = 0;
+	}
 }

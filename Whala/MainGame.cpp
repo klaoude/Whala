@@ -104,8 +104,7 @@ void MainGame::gameLoop()
 		{
 			float deltaTime = std::min(totalDeltaTime, MAX_DELTA_TIME);
 
-			for each(Enemi* enemi in m_enemies)
-				enemi->update(m_levels[0]->getLevelData(), deltaTime, m_player);
+			updateEntity(deltaTime);
 
 			m_player->update(m_levels[0]->getLevelData(), deltaTime, m_player);
 			
@@ -203,4 +202,20 @@ void MainGame::drawHud()
 
 	m_hudSpriteBatch.end();
 	m_hudSpriteBatch.renderBatch();
+}
+
+void MainGame::updateEntity(float deltaTime)
+{
+	for each(Enemi* enemi in m_enemies)
+		enemi->update(m_levels[0]->getLevelData(), deltaTime, m_player);
+
+	for (auto i = 0; i < m_enemies.size(); i++)
+	{
+		for (auto j = i + 1; j < m_enemies.size(); j++)
+		{
+			m_enemies[i]->collideWithEntity(m_enemies[j]);
+		}
+		if (m_enemies[i]->collideWithEntity(m_player))
+			m_player->takeDamage(5.f);
+	}
 }

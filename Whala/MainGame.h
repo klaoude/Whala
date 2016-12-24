@@ -33,6 +33,7 @@ private:
 	void processInput();
 	void drawGame();
 	void drawHud();
+	void updateEntity(float deltaTime);
 
 	KlaoudeEngine::Window m_window;
 	KlaoudeEngine::GLSLProgram m_textureProgram;

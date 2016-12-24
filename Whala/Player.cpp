@@ -58,32 +58,16 @@ void Player::update(const std::vector<std::string>& levelData, float deltaTime, 
 	collideWithLevel(levelData);	
 
 	std::cout << m_speed.y << std::endl;
+
+	if (m_imunity > 0)
+		m_imunity--;
 }
 
-void Player::jump(float deltaTime, const std::vector<std::string>& levelData)
+void Player::takeDamage(float damage)
 {
-	m_jumpForce = 1.2f * deltaTime;
-	if (m_isJumping)
+	if (m_imunity == 0)
 	{
-		if (m_dJumpForce > 0)
-			m_dJumpForce -= 0.1 * deltaTime;
-		else
-			m_dJumpForce = 0;
-	}
-	else
-		m_dJumpForce = m_jumpForce;
-
-	if (isGrounded(levelData) && m_dJumpForce == 0)
-	{
-		m_isJumping = false;
-		m_speed.y = 0;
-		m_dJumpForce = 0;
-	}
-	else if (isGrounded(levelData) && !m_isJumping)
-		m_speed.y = 0;
-	if (isPlafon(levelData))
-	{
-		m_speed.y = 0;
-		m_dJumpForce = 0;
-	}
+		m_health -= damage;
+		m_imunity = 1000;
+	}		
 }
