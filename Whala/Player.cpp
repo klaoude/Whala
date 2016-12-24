@@ -23,8 +23,7 @@ void Player::init(glm::vec2 speed,
 	glm::vec2 position,
 	KlaoudeEngine::InputManager* inputManager,
 	KlaoudeEngine::Camera2D* camera)
-{
-	
+{	
 	m_speed = speed;
 	m_position = position;
 	m_inputManager = inputManager;
@@ -70,7 +69,6 @@ void Player::update(const std::vector<std::string>& levelData, float deltaTime)
 		m_isJumping = false;
 
 	std::cout << m_speed.y << std::endl;
-
 
 	collideWithLevel(levelData);	
 	time++;

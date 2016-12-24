@@ -25,6 +25,8 @@ protected:
 	bool isGrounded(const std::vector<std::string>& levelData);
 	bool checkTile(glm::vec2 tilePos);
 
+	bool isPlafon(const std::vector<std::string>& levelData);
+
 	glm::vec2 m_position;
 	glm::vec2 m_direction = glm::vec2(1.f, 0.f);
 	float m_speed;

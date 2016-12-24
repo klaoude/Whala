@@ -85,8 +85,7 @@ bool Entity::isGrounded(const std::vector<std::string>& levelData)
 {
 	std::vector<glm::vec2> collideTilePos;
 
-	checkTilePosition(levelData, collideTilePos, m_position.x, m_position.y);
-	checkTilePosition(levelData, collideTilePos, m_position.x + m_sizeX, m_position.y);
+	checkTilePosition(levelData, collideTilePos, m_position.x + m_sizeX / 2.f, m_position.y);
 
 	if (collideTilePos.size() == 0)
 		return false;
@@ -114,4 +113,19 @@ bool Entity::checkTile(glm::vec2 tilePos)
 		else
 			return true;
 	}
+}
+
+bool Entity::isPlafon(const std::vector<std::string>& levelData)
+{
+	std::vector<glm::vec2> collideTilePos;
+
+	checkTilePosition(levelData, collideTilePos, m_position.x + m_sizeX / 2.f, m_position.y + m_sizeY);
+
+	if (collideTilePos.size() == 0)
+		return false;
+
+	for each(glm::vec2 collide in collideTilePos)
+		if (checkTile(collide))
+			return true;
+	return false;
 }

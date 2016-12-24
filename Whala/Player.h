@@ -19,11 +19,11 @@ public:
 		KlaoudeEngine::InputManager* inputManager,
 		KlaoudeEngine::Camera2D* camera);
 
-	void update(const std::vector<std::string>& levelData, float deltaTime) override;
-
-	void applyForce(float deltaTime, const std::vector<std::string>& levelData);
+	void update(const std::vector<std::string>& levelData, float deltaTime) override;	
 
 private:
+	void applyForce(float deltaTime, const std::vector<std::string>& levelData);
+
 	KlaoudeEngine::InputManager* m_inputManager;
 	KlaoudeEngine::Camera2D* m_camera;
 
