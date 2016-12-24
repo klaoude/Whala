@@ -38,7 +38,7 @@ void Player::init(glm::vec2 speed,
 
 void Player::update(const std::vector<std::string>& levelData, float deltaTime)
 {
-	m_jumpForce = 2 * deltaTime;
+	m_jumpForce = 1 * deltaTime;
 	if (m_isJumping)
 	{
 		if (m_dJumpForce > 0)
