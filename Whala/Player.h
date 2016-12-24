@@ -3,6 +3,9 @@
 #include <KlaoudeEngine/Camera2D.h>
 #include <KlaoudeEngine\SpriteBatch.h>
 
+const float SIZE_X = 16;
+const float SIZE_Y = 20;
+
 class Player
 {
 public:
@@ -16,11 +19,16 @@ public:
 
 	void draw(KlaoudeEngine::SpriteBatch& spritebatch);
 
-	void update(float deltaTime);
+	void update(float deltaTime, const std::vector<std::string>& levelData);
+
+	bool collideWithLevel(const std::vector<std::string>& levelData);
 
 	glm::vec2 getPosition() { return m_position; }
 
 private:
+	void checkTilePosition(const std::vector<std::string>& levelData, std::vector<glm::vec2>& collideTilePos, float x, float y);
+	void collideWithTile(glm::vec2 tilePos);
+
 	KlaoudeEngine::InputManager* m_inputManager;
 	KlaoudeEngine::Camera2D* m_camera;
 

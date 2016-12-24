@@ -15,6 +15,8 @@ public:
 
 	void draw();
 
+	const std::vector<std::string>& getLevelData() const { return m_levelData; }
+
 private:
 	std::vector<std::string> m_levelData;
 	KlaoudeEngine::SpriteBatch m_spriteBatch;
