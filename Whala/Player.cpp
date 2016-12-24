@@ -63,7 +63,7 @@ void Player::update(float deltaTime, const std::vector<std::string>& levelData)
 
 void Player::applyForce(float deltaTime)
 {
-	gravity = -0.01 * deltaTime;
+	gravity = -0.04 * deltaTime;
 	m_acc.y += gravity;
 	m_speed += m_acc;
 	m_position += m_speed;
@@ -75,7 +75,9 @@ void Player::applyForce(float deltaTime)
 
 void Player::jump(float deltaTime)
 {
-
+	if (m_acc.y > 0)
+		return;
+	m_acc.y += 0.1 * deltaTime;
 }
 
 
