@@ -24,9 +24,6 @@ public:
 	void applyForce(float deltaTime, const std::vector<std::string>& levelData);
 
 private:
-	bool isGrounded(const std::vector<std::string>& levelData);
-	bool checkTile(glm::vec2 tilePos);
-
 	KlaoudeEngine::InputManager* m_inputManager;
 	KlaoudeEngine::Camera2D* m_camera;
 

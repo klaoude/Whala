@@ -22,6 +22,9 @@ protected:
 	void checkTilePosition(const std::vector<std::string>& levelData, std::vector<glm::vec2>& collideTilePos, float x, float y);
 	void collideWithTile(glm::vec2 tilePos);
 
+	bool isGrounded(const std::vector<std::string>& levelData);
+	bool checkTile(glm::vec2 tilePos);
+
 	glm::vec2 m_position;
 	glm::vec2 m_direction = glm::vec2(1.f, 0.f);
 	float m_speed;
