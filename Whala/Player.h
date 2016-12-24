@@ -31,6 +31,9 @@ private:
 	void checkTilePosition(const std::vector<std::string>& levelData, std::vector<glm::vec2>& collideTilePos, float x, float y);
 	void collideWithTile(glm::vec2 tilePos);
 
+	bool isGrounded(const std::vector<std::string>& levelData);
+	bool checkTile(glm::vec2 tilePos);
+
 	KlaoudeEngine::InputManager* m_inputManager;
 	KlaoudeEngine::Camera2D* m_camera;
 

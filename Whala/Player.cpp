@@ -44,8 +44,6 @@ void Player::draw(KlaoudeEngine::SpriteBatch& spritebatch)
 
 void Player::update(float deltaTime, const std::vector<std::string>& levelData)
 {
-
-
 	if (m_inputManager->isKeyDown(SDLK_s))
 		m_acc.y -= 0.1 * deltaTime;
 	else if (m_inputManager->isKeyDown(SDLK_z))
@@ -58,7 +56,10 @@ void Player::update(float deltaTime, const std::vector<std::string>& levelData)
 	m_direction = glm::vec2(1, 0);	
 	applyForce(deltaTime);
 
-	collideWithLevel(levelData);
+	if (isGrounded(levelData))
+		std::cout << "Bite" << std::endl;
+
+	collideWithLevel(levelData);	
 }
 
 void Player::applyForce(float deltaTime)
@@ -71,15 +72,10 @@ void Player::applyForce(float deltaTime)
 	m_speed.x = 0;
 }
 
-
-
 void Player::jump(float deltaTime)
 {
 
 }
-
-
-
 
 bool Player::collideWithLevel(const std::vector<std::string>& levelData)
 {
@@ -98,9 +94,6 @@ bool Player::collideWithLevel(const std::vector<std::string>& levelData)
 
 	return true;
 }
-
-
-
 
 void Player::checkTilePosition(const std::vector<std::string>& levelData, std::vector<glm::vec2>& collideTilePos, float x, float y)
 {
@@ -143,5 +136,40 @@ void Player::collideWithTile(glm::vec2 tilePos)
 			else
 				m_position.y += ydepth;
 		}
+	}
+}
+
+bool Player::isGrounded(const std::vector<std::string>& levelData)
+{
+	std::vector<glm::vec2> collideTilePos;
+
+	checkTilePosition(levelData, collideTilePos, m_position.x, m_position.y);
+	checkTilePosition(levelData, collideTilePos, m_position.x + SIZE_X, m_position.y);
+
+	if (collideTilePos.size() == 0)
+		return false;
+
+	for each(glm::vec2 collide in collideTilePos)
+		if (checkTile(collide))
+			return true;
+	return false;
+}
+
+bool Player::checkTile(glm::vec2 tilePos)
+{
+	const float TILE_RADIUS = float(TILE_WIDTH) / 2.0f;
+	const float MIN_DIST_Y = SIZE_Y / 2.f + TILE_RADIUS;
+
+	glm::vec2 centerPlayerPos = m_position + glm::vec2(SIZE_X / 2.f, SIZE_Y / 2.f);
+	glm::vec2 distVec = centerPlayerPos - tilePos;
+
+	float ydepth = MIN_DIST_Y - abs(distVec.y);
+
+	if (ydepth > 0)
+	{
+		if (distVec.y < 0)
+			return false;
+		else
+			return true;
 	}
 }
