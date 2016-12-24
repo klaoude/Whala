@@ -38,7 +38,8 @@ void Player::init(glm::vec2 speed,
 
 void Player::update(const std::vector<std::string>& levelData, float deltaTime)
 {
-	m_jumpForce = 1 * deltaTime;
+	m_direction = glm::vec2(1.f, 0.f);
+	m_jumpForce = 0.06 * deltaTime;
 	if (m_isJumping)
 	{
 		if (m_dJumpForce > 0)
@@ -49,7 +50,7 @@ void Player::update(const std::vector<std::string>& levelData, float deltaTime)
 	else
 		m_dJumpForce = m_jumpForce;
 
-	m_direction = glm::vec2(1, 0);
+	applyForce(deltaTime, levelData);
 
 	if (m_inputManager->isKeyDown(SDLK_s))
 		m_position.y -= m_speed.x * deltaTime;
@@ -58,10 +59,13 @@ void Player::update(const std::vector<std::string>& levelData, float deltaTime)
 		m_isJumping = true;
 
 	if (m_inputManager->isKeyDown(SDLK_q))
+	{
 		m_speed.x = -4 * deltaTime;
+	}
 	else if (m_inputManager->isKeyDown(SDLK_d))
+	{
 		m_speed.x = 4 * deltaTime;
-
+	}
 
 	applyForce(deltaTime, levelData);
 	if (isGrounded(levelData) && m_isJumping)
