@@ -4,17 +4,21 @@
 
 #include <KlaoudeEngine\SpriteBatch.h>
 
+class Player;
+
 class Entity
 {
 public:
 	Entity(int sizeX, int sizeY);
 	virtual ~Entity();
 
-	virtual void update(const std::vector<std::string>& levelData, float deltaTime) = 0;
+	virtual void update(const std::vector<std::string>& levelData, float deltaTime, Player* player) = 0;
 
 	void draw(KlaoudeEngine::SpriteBatch& spriteBatch);
 
 	bool collideWithLevel(const std::vector<std::string>& levelData);
+
+	bool collideWithEntity(Entity* entity);
 
 	glm::vec2 getPosition() const { return m_position; }
 
@@ -29,6 +33,8 @@ protected:
 	bool isPlafon(const std::vector<std::string>& levelData);
 
 	void applyForce(float deltaTime, const std::vector<std::string>& levelData);
+
+	void jump(float deltaTime, const std::vector<std::string>& levelData);
 
 	glm::vec2 m_position;
 	glm::vec2 m_direction = glm::vec2(1.f, 0.f);

@@ -14,8 +14,7 @@ MainGame::MainGame() :
 	m_screenHeight(768),
 	m_fps(0),
 	m_gameState(GameState::PLAY)
-{
-}
+{}
 
 MainGame::~MainGame()
 {
@@ -42,9 +41,14 @@ void MainGame::initSystems()
 
 	initShaders();
 
-	m_playerSpriteBatch.init();
+	m_entitySpriteBatch.init();
+	m_hudSpriteBatch.init();
+
+	m_spriteFont = new KlaoudeEngine::SpriteFont("Fonts/comic.ttf", 32);
 
 	m_camera.init(m_screenWidth, m_screenHeight);
+	m_hudCamera.init(m_screenWidth, m_screenHeight);
+	m_hudCamera.setPosition(glm::vec2(m_screenWidth / 2, m_screenHeight / 2));
 }
 
 void MainGame::initLevel()
@@ -100,16 +104,18 @@ void MainGame::gameLoop()
 		{
 			float deltaTime = std::min(totalDeltaTime, MAX_DELTA_TIME);
 
-			for each(Enemi* enemi in m_enemies)
-				enemi->update(m_levels[0]->getLevelData(), deltaTime);
-			m_player->update(m_levels[0]->getLevelData(), deltaTime);
+			updateEntity(deltaTime);
 
+			m_player->update(m_levels[0]->getLevelData(), deltaTime, m_player);
+			
 			totalDeltaTime -= deltaTime;
 			i++;
 		}
 
 		m_camera.setPosition(m_player->getPosition());
 		m_camera.update();
+
+		m_hudCamera.update();
 
 		drawGame();
 
@@ -162,18 +168,54 @@ void MainGame::drawGame()
 	
 	m_levels[0]->draw();
 
-	m_playerSpriteBatch.begin();
+	m_entitySpriteBatch.begin();
 
-	m_player->draw(m_playerSpriteBatch);
+	m_player->draw(m_entitySpriteBatch);
 
 	for each(Enemi* enemi in m_enemies)
-		enemi->draw(m_playerSpriteBatch);
+		enemi->draw(m_entitySpriteBatch);
 
-	m_playerSpriteBatch.end();
+	m_entitySpriteBatch.end();
 
-	m_playerSpriteBatch.renderBatch();
+	m_entitySpriteBatch.renderBatch();
+
+	drawHud();
 
 	m_textureProgram.unUse();
 
 	m_window.swapBuffer();
+}
+
+void MainGame::drawHud()
+{
+	char str1Buffer[256];
+
+	glm::mat4 projectionMatrix = m_hudCamera.getCameraMatrix();
+	GLint pUniform = m_textureProgram.getUniformLocation("P");
+	glUniformMatrix4fv(pUniform, 1, GL_FALSE, &projectionMatrix[0][0]);
+
+	m_hudSpriteBatch.begin();
+
+	sprintf(str1Buffer, "Health : %d", m_player->getHealth());
+
+	m_spriteFont->draw(m_hudSpriteBatch, str1Buffer, glm::vec2(0.f), glm::vec2(1.f), 0.f, KlaoudeEngine::ColorRGBA8(255, 255, 255, 255));
+
+	m_hudSpriteBatch.end();
+	m_hudSpriteBatch.renderBatch();
+}
+
+void MainGame::updateEntity(float deltaTime)
+{
+	for each(Enemi* enemi in m_enemies)
+		enemi->update(m_levels[0]->getLevelData(), deltaTime, m_player);
+
+	for (auto i = 0; i < m_enemies.size(); i++)
+	{
+		for (auto j = i + 1; j < m_enemies.size(); j++)
+		{
+			m_enemies[i]->collideWithEntity(m_enemies[j]);
+		}
+		if (m_enemies[i]->collideWithEntity(m_player))
+			m_player->takeDamage(5.f);
+	}
 }

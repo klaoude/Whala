@@ -35,20 +35,20 @@ void Player::init(glm::vec2 speed,
 	m_textureID = KlaoudeEngine::RessourceManager::getTexture("Textures/Player.png").id;
 }
 
-void Player::update(const std::vector<std::string>& levelData, float deltaTime)
+void Player::update(const std::vector<std::string>& levelData, float deltaTime, Player* player)
 {
-	if (m_inputManager->isKeyDown(SDLK_q))
+	if (m_inputManager->isKeyDown(SDLK_LEFT))
 	{
 		m_speed.x = -4 * deltaTime;
 	}
-	else if (m_inputManager->isKeyDown(SDLK_d))
+	else if (m_inputManager->isKeyDown(SDLK_RIGHT))
 	{
 		m_speed.x = 4 * deltaTime;
 	}
-	if (m_inputManager->isKeyDown(SDLK_s))
+	if (m_inputManager->isKeyDown(SDLK_DOWN))
 		m_position.y -= m_speed.x * deltaTime;
 
-	else if (m_inputManager->isKeyDown(SDLK_z))
+	else if (m_inputManager->isKeyDown(SDLK_UP))
 		m_isJumping = true;
 
 	jump(deltaTime, levelData);
@@ -58,7 +58,6 @@ void Player::update(const std::vector<std::string>& levelData, float deltaTime)
 	collideWithLevel(levelData);	
 
 	std::cout << m_speed.y << std::endl;
-}
 
 void Player::jump(float deltaTime, const std::vector<std::string>& levelData)
 {
@@ -89,8 +88,15 @@ void Player::jump(float deltaTime, const std::vector<std::string>& levelData)
 	else if (isGrounded(levelData) && !m_isJumping)
 		m_speed.y = 0;
 	if (isPlafon(levelData))
+	if (m_imunity > 0)
+		m_imunity--;
+}
+
+void Player::takeDamage(float damage)
+{
+	if (m_imunity == 0)
 	{
-		m_speed.y = 0;
-		m_dJumpForce = 0;
-	}
+		m_health -= damage;
+		m_imunity = 1000;
+	}		
 }
