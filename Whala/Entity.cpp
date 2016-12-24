@@ -43,10 +43,10 @@ void Entity::checkTilePosition(const std::vector<std::string>& levelData, std::v
 		floor(y / float(TILE_WIDTH)));
 
 	if (cornerPos.x < 0 || cornerPos.x >= levelData[0].length() ||
-		cornerPos.y < 1 || cornerPos.y >= levelData.size())
+		cornerPos.y < 0 || cornerPos.y >= levelData.size())
 		return;
 
-	if (levelData[cornerPos.y-1][cornerPos.x] != '.')
+	if (levelData[cornerPos.y][cornerPos.x] != '.')
 		collideTilePos.push_back(cornerPos * float(TILE_WIDTH) + glm::vec2(TILE_WIDTH / 2.0f));
 }
 
@@ -85,7 +85,7 @@ bool Entity::isGrounded(const std::vector<std::string>& levelData)
 {
 	std::vector<glm::vec2> collideTilePos;
 
-	checkTilePosition(levelData, collideTilePos, m_position.x + m_sizeX / 2.f, m_position.y);
+	checkTilePosition(levelData, collideTilePos, m_position.x + m_sizeX / 2.f, m_position.y - 0.1f);
 
 	if (collideTilePos.size() == 0)
 		return false;
