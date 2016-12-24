@@ -66,12 +66,17 @@ void Player::update(const std::vector<std::string>& levelData, float deltaTime)
 
 	applyForce(deltaTime, levelData);
 	if (isGrounded(levelData) && m_isJumping)
+	{
 		m_isJumping = false;
-	if (isPlafon(levelData))
+		m_speed.y = 0;
+	}
+		if (isPlafon(levelData))
 	{
 		m_speed.y = 0;
 		m_dJumpForce = 0;
 	}
 
 	collideWithLevel(levelData);	
+
+	std::cout << m_speed.y << std::endl;
 }
