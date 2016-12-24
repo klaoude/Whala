@@ -79,6 +79,8 @@ void Player::jump(float deltaTime, const std::vector<std::string>& levelData)
 		m_speed.y = 0;
 		m_dJumpForce = 0;
 	}
+	else if (isGrounded(levelData) && !m_isJumping)
+		m_speed.y = 0;
 	if (isPlafon(levelData))
 	{
 		m_speed.y = 0;
