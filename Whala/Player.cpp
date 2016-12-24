@@ -47,18 +47,39 @@ void Player::update(float deltaTime, const std::vector<std::string>& levelData)
 
 
 	if (m_inputManager->isKeyDown(SDLK_s))
-		m_acc.y -= 2;
+		m_acc.y -= 0.1 * deltaTime;
 	else if (m_inputManager->isKeyDown(SDLK_z))
 		jump(deltaTime);
 	if (m_inputManager->isKeyDown(SDLK_q))
-		m_acc.x -= 2;
+		m_acc.x -= 4.0f * deltaTime;
 	else if (m_inputManager->isKeyDown(SDLK_d))
-		m_acc.x += 2;
+		m_acc.x += 4.0f * deltaTime;
 
 	m_direction = glm::vec2(1, 0);	
+	applyForce(deltaTime);
 
 	collideWithLevel(levelData);
 }
+
+void Player::applyForce(float deltaTime)
+{
+	gravity = -0.01 * deltaTime;
+	m_acc.y += gravity;
+	m_speed += m_acc;
+	m_position += m_speed;
+	m_acc *= 0;
+	m_speed.x = 0;
+}
+
+
+
+void Player::jump(float deltaTime)
+{
+
+}
+
+
+
 
 bool Player::collideWithLevel(const std::vector<std::string>& levelData)
 {
@@ -77,6 +98,9 @@ bool Player::collideWithLevel(const std::vector<std::string>& levelData)
 
 	return true;
 }
+
+
+
 
 void Player::checkTilePosition(const std::vector<std::string>& levelData, std::vector<glm::vec2>& collideTilePos, float x, float y)
 {
@@ -120,22 +144,4 @@ void Player::collideWithTile(glm::vec2 tilePos)
 				m_position.y += ydepth;
 		}
 	}
-}
-	applyForce(deltaTime);
-	
-	m_direction = glm::vec2(1, 0);
-}
-
-void Player::applyForce(float deltaTime)
-{
-	m_acc.y += gravity;
-	m_speed += m_acc;
-	m_position += m_speed;
-}
-
-
-
-void Player::jump(float deltaTime)
-{	
-	
 }

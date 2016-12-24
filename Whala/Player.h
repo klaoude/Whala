@@ -24,7 +24,6 @@ public:
 	bool collideWithLevel(const std::vector<std::string>& levelData);
 	void jump(float deltaTime);
 	void applyForce(float deltaTime);
-	void update(float deltaTime);
 
 	glm::vec2 getPosition() { return m_position; }
 
@@ -35,7 +34,7 @@ private:
 	KlaoudeEngine::InputManager* m_inputManager;
 	KlaoudeEngine::Camera2D* m_camera;
 
-	float gravity = -2;
+	float gravity;
 	glm::vec2 m_acc;
 	glm::vec2 m_speed;
 	glm::vec2 m_position;
