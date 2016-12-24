@@ -22,18 +22,6 @@ public:
 	void update(const std::vector<std::string>& levelData, float deltaTime) override;	
 
 private:
-	void applyForce(float deltaTime, const std::vector<std::string>& levelData);
-
 	KlaoudeEngine::InputManager* m_inputManager;
-	KlaoudeEngine::Camera2D* m_camera;
-
-	float gravity;
-	glm::vec2 m_speed;
-	float m_jumpForce;
-	float m_dJumpForce;
-
-	bool m_isJumping = false;
-	int time = 0;
-	int t0 = 0, t = 0;
-	glm::vec2 pos0, speed0;
+	KlaoudeEngine::Camera2D* m_camera;	
 };

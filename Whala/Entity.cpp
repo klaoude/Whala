@@ -148,3 +148,15 @@ bool Entity::isPlafon(const std::vector<std::string>& levelData)
 			return true;
 	return false;
 }
+
+void Entity::applyForce(float deltaTime, const std::vector<std::string>& levelData)
+{
+	m_gravity = -0.03f * deltaTime;
+	if (isGrounded(levelData))
+		m_speed.y -= m_gravity;
+	m_speed.y += m_gravity;
+	if (m_isJumping)
+		m_speed.y += m_dJumpForce;
+	m_position += m_speed;
+	m_speed.x = 0;
+}

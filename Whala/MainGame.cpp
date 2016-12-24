@@ -54,6 +54,9 @@ void MainGame::initLevel()
 	m_player = new Player();
 	glm::vec2 speed(0, 0);
 	m_player->init(speed, glm::vec2(1000, 750), &m_inputManager, &m_camera);
+
+	m_enemies.push_back(new Enemi());
+	m_enemies[0]->init(speed, glm::vec2(750, 750));
 }
 
 void MainGame::initShaders()
@@ -96,7 +99,11 @@ void MainGame::gameLoop()
 		while (totalDeltaTime > 0.0f && i < MAX_PHYSICS_STEPS)
 		{
 			float deltaTime = std::min(totalDeltaTime, MAX_DELTA_TIME);
+
+			for each(Enemi* enemi in m_enemies)
+				enemi->update(m_levels[0]->getLevelData(), deltaTime);
 			m_player->update(m_levels[0]->getLevelData(), deltaTime);
+
 			totalDeltaTime -= deltaTime;
 			i++;
 		}
@@ -158,6 +165,9 @@ void MainGame::drawGame()
 	m_playerSpriteBatch.begin();
 
 	m_player->draw(m_playerSpriteBatch);
+
+	for each(Enemi* enemi in m_enemies)
+		enemi->draw(m_playerSpriteBatch);
 
 	m_playerSpriteBatch.end();
 

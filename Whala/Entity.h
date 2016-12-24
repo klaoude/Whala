@@ -28,13 +28,21 @@ protected:
 
 	bool isPlafon(const std::vector<std::string>& levelData);
 
+	void applyForce(float deltaTime, const std::vector<std::string>& levelData);
+
 	glm::vec2 m_position;
 	glm::vec2 m_direction = glm::vec2(1.f, 0.f);
-	float m_speed;
+	glm::vec2 m_speed;
 	KlaoudeEngine::ColorRGBA8 m_color;
 	GLuint m_textureID;
 
 	int m_sizeX;
 	int m_sizeY;
+
+	float m_gravity;
+	float m_jumpForce;
+	float m_dJumpForce;
+
+	bool m_isJumping = false;
 };
 

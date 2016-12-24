@@ -8,6 +8,7 @@
 
 #include "Player.h"
 #include "Level.h"
+#include "Enemi.h"
 
 enum class GameState
 {
@@ -44,6 +45,7 @@ private:
 	GameState m_gameState;
 
 	Player* m_player;
+	std::vector<Enemi*> m_enemies;
 
 	std::vector<Level*> m_levels;
 };

@@ -35,11 +35,10 @@ void Player::init(glm::vec2 speed,
 	m_textureID = KlaoudeEngine::RessourceManager::getTexture("Textures/Player.png").id;
 }
 
-
 void Player::update(const std::vector<std::string>& levelData, float deltaTime)
 {
 	m_direction = glm::vec2(1.f, 0.f);
-	m_jumpForce = 2 * deltaTime;
+	m_jumpForce = 1.1f * deltaTime;
 	if (m_isJumping)
 	{
 		if (m_dJumpForce > 0)
@@ -74,20 +73,5 @@ void Player::update(const std::vector<std::string>& levelData, float deltaTime)
 		m_dJumpForce = 0;
 	}
 
-	std::cout << m_speed.y << std::endl;
-
 	collideWithLevel(levelData);	
-	time++;
-}
-
-void Player::applyForce(float deltaTime, const std::vector<std::string>& levelData)
-{
-	gravity = -0.01f * deltaTime;
-	if (isGrounded(levelData))
-		m_speed.y -= gravity;
-	m_speed.y += gravity;
-	if (m_isJumping)
-		m_speed.y += m_dJumpForce;
-	m_position += m_speed;
-	m_speed.x = 0;
 }
