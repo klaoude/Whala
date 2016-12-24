@@ -29,6 +29,8 @@ private:
 
 	float gravity;
 	glm::vec2 m_speed;
+	float m_jumpForce;
+	float m_dJumpForce;
 
 	bool m_isJumping = false;
 	int time = 0;
