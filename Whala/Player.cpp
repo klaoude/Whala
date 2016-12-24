@@ -55,9 +55,13 @@ void Player::update(const std::vector<std::string>& levelData, float deltaTime, 
 
 	applyForce(deltaTime, levelData);
 
-	collideWithLevel(levelData);	
+	collideWithLevel(levelData);
+
+	if (m_imunity > 0)
+		m_imunity--;
 
 	std::cout << m_speed.y << std::endl;
+}
 
 void Player::jump(float deltaTime, const std::vector<std::string>& levelData)
 {
@@ -66,7 +70,7 @@ void Player::jump(float deltaTime, const std::vector<std::string>& levelData)
 	{
 		m_jumpTime++;
 
-		if (m_jumpTime < 100 && m_inputManager->isKeyDown(SDLK_z))
+		if (m_jumpTime < 100 && m_inputManager->isKeyDown(SDLK_UP))
 			m_speed.y += 0.1 * deltaTime;
 
 		if (m_dJumpForce > 0)
@@ -87,9 +91,13 @@ void Player::jump(float deltaTime, const std::vector<std::string>& levelData)
 	}
 	else if (isGrounded(levelData) && !m_isJumping)
 		m_speed.y = 0;
+
 	if (isPlafon(levelData))
-	if (m_imunity > 0)
-		m_imunity--;
+	{
+		m_speed.y = 0;
+
+	}
+
 }
 
 void Player::takeDamage(float damage)
