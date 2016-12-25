@@ -3,6 +3,7 @@
 #include <glm/glm.hpp>
 
 #include <KlaoudeEngine\SpriteBatch.h>
+#include <KlaoudeEngine\InputManager.h>
 
 class Player;
 
@@ -34,7 +35,7 @@ protected:
 
 	void applyForce(float deltaTime, const std::vector<std::string>& levelData);
 
-	void jump(float deltaTime, const std::vector<std::string>& levelData);
+	void jump(float deltaTime, const std::vector<std::string>& levelData, KlaoudeEngine::InputManager* inputManager = nullptr);
 
 	glm::vec2 m_position;
 	glm::vec2 m_direction = glm::vec2(1.f, 0.f);

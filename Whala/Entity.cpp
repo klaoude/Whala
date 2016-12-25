@@ -1,6 +1,7 @@
 #include "Entity.h"
 #include "Level.h"
 #include <algorithm>
+#include <SDL/SDL.h>
 
 Entity::Entity(int sizeX, int sizeY) : m_speed(0.f), m_sizeX(sizeX), m_sizeY(sizeY)
 {
@@ -196,19 +197,26 @@ void Entity::applyForce(float deltaTime, const std::vector<std::string>& levelDa
 	m_speed.x = 0;
 }
 
-void Entity::jump(float deltaTime, const std::vector<std::string>& levelData)
+void Entity::jump(float deltaTime, const std::vector<std::string>& levelData, KlaoudeEngine::InputManager* inputManager)
 {
-	m_jumpForce = 1.2f * deltaTime;
+	m_jumpForce = 0.5f * deltaTime;
 	if (m_isJumping)
 	{
+		m_jumpTime++;
+
+		if (inputManager != nullptr && m_jumpTime < 100 && inputManager->isKeyDown(SDLK_UP))
+			m_speed.y += 0.1 * deltaTime;
+
 		if (m_dJumpForce > 0)
 			m_dJumpForce -= 0.1 * deltaTime;
 		else
 			m_dJumpForce = 0;
 	}
 	else
+	{
 		m_dJumpForce = m_jumpForce;
-
+		m_jumpTime = 0;
+	}
 	if (isGrounded(levelData) && m_dJumpForce == 0)
 	{
 		m_isJumping = false;
@@ -217,9 +225,9 @@ void Entity::jump(float deltaTime, const std::vector<std::string>& levelData)
 	}
 	else if (isGrounded(levelData) && !m_isJumping)
 		m_speed.y = 0;
+
 	if (isPlafon(levelData))
 	{
 		m_speed.y = 0;
-		m_dJumpForce = 0;
 	}
 }

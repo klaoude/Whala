@@ -28,6 +28,7 @@ void Enemi::update(const std::vector<std::string>& levelData, float deltaTime, P
 {
 	static std::mt19937 randomEngine(time(nullptr));
 	static std::uniform_int_distribution<int> randDir(-1, 1);
+	static std::uniform_int_distribution<int> randJump(0, 1);
 
 	applyForce(deltaTime, levelData);
 
@@ -45,6 +46,9 @@ void Enemi::update(const std::vector<std::string>& levelData, float deltaTime, P
 
 		if (m_frame >= 60 * 5)
 		{
+			if (randJump(randomEngine) == 1)
+				jump(deltaTime, levelData);
+
 			m_dir = randDir(randomEngine);
 			m_frame = 0;
 		}		
