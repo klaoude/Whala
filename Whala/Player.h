@@ -21,8 +21,6 @@ public:
 
 	void update(const std::vector<std::string>& levelData, float deltaTime, Player* player) override;
 
-	void jump(float deltaTime, const std::vector<std::string>& levelData);
-
 	int getHealth() { return m_health; }
 	void takeDamage(float damage);
 private:
