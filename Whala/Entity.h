@@ -10,7 +10,7 @@ class Player;
 class Entity
 {
 public:
-	Entity(int sizeX, int sizeY);
+	Entity(int sizeX, int sizeY, float health, float imunity = -1);
 	virtual ~Entity();
 
 	virtual void update(const std::vector<std::string>& levelData, float deltaTime, Player* player) = 0;
@@ -22,6 +22,9 @@ public:
 	bool collideWithEntity(Entity* entity);
 
 	glm::vec2 getPosition() const { return m_position; }
+	float getSizeX() const { return m_sizeX; }
+	float getSizeY() const { return m_sizeY; }
+	bool takeDamage(float damage);
 
 protected:
 	void checkTilePosition(const std::vector<std::string>& levelData, std::vector<glm::vec2>& collideTilePos, float x, float y);
@@ -50,6 +53,8 @@ protected:
 	float m_jumpForce;
 	float m_dJumpForce;
 	int m_jumpTime;
+	int m_imunity = 0;
+	int m_health = 100;
 
 	bool m_isJumping = false;
 };

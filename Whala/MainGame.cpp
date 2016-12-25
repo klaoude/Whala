@@ -57,7 +57,7 @@ void MainGame::initLevel()
 
 	m_player = new Player();
 	glm::vec2 speed(0, 0);
-	m_player->init(speed, glm::vec2(1000, 750), &m_inputManager, &m_camera);
+	m_player->init(speed, glm::vec2(1000, 750), &m_attacks, &m_inputManager, &m_camera);
 
 	m_enemies.push_back(new Enemi());
 	m_enemies[0]->init(speed, glm::vec2(750, 750));
@@ -105,6 +105,7 @@ void MainGame::gameLoop()
 			float deltaTime = std::min(totalDeltaTime, MAX_DELTA_TIME);
 
 			updateEntity(deltaTime);
+			updateAttack(deltaTime);
 
 			m_player->update(m_levels[0]->getLevelData(), deltaTime, m_player);
 			
@@ -175,6 +176,9 @@ void MainGame::drawGame()
 	for each(Enemi* enemi in m_enemies)
 		enemi->draw(m_entitySpriteBatch);
 
+	for each(Attack att in m_attacks)
+		att.draw(m_entitySpriteBatch);
+
 	m_entitySpriteBatch.end();
 
 	m_entitySpriteBatch.renderBatch();
@@ -217,5 +221,42 @@ void MainGame::updateEntity(float deltaTime)
 		}
 		if (m_enemies[i]->collideWithEntity(m_player))
 			m_player->takeDamage(5.f);
+	}
+}
+
+void MainGame::updateAttack(float deltaTime)
+{
+	for (int i = 0; i < m_attacks.size();)
+	{
+		if (m_attacks[i].update(m_levels[0]->getLevelData(), deltaTime))
+		{
+			m_attacks[i] = m_attacks.back();
+			m_attacks.pop_back();
+		}
+		else
+			i++;
+	}
+
+	for (int i = 0; i < m_attacks.size(); i++)
+	{
+		for (int j = 0; j < m_enemies.size();)
+		{
+			if (m_attacks[i].collideWithEntity(m_enemies[j]))
+			{
+				if (m_enemies[j]->takeDamage(m_attacks[i].getDamage()))
+				{
+					delete m_enemies[j];
+					m_enemies[j] = m_enemies.back();
+					m_enemies.pop_back();
+				}
+
+				m_attacks[i] = m_attacks.back();
+				m_attacks.pop_back();
+				i--;
+
+				break;
+			}
+			j++;
+		}
 	}
 }

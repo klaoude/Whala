@@ -10,6 +10,7 @@
 #include "Player.h"
 #include "Level.h"
 #include "Enemi.h"
+#include "Attack.h"
 
 enum class GameState
 {
@@ -34,6 +35,7 @@ private:
 	void drawGame();
 	void drawHud();
 	void updateEntity(float deltaTime);
+	void updateAttack(float deltaTime);
 
 	KlaoudeEngine::Window m_window;
 	KlaoudeEngine::GLSLProgram m_textureProgram;
@@ -52,6 +54,7 @@ private:
 
 	Player* m_player;
 	std::vector<Enemi*> m_enemies;
+	std::vector<Attack> m_attacks;
 
 	std::vector<Level*> m_levels;
 };

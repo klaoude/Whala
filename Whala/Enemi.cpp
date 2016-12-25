@@ -4,7 +4,7 @@
 #include "Level.h"
 #include "Player.h"
 
-Enemi::Enemi() : Entity(16, 20){ m_randomEngine.seed(time(nullptr)); }
+Enemi::Enemi() : Entity(16, 20, 20){ m_randomEngine.seed(time(nullptr)); }
 
 Enemi::~Enemi(){}
 
@@ -16,9 +16,7 @@ void Enemi::init(glm::vec2 speed, glm::vec2 position)
 	m_speed = speed;
 	m_position = position;
 
-	m_direction = glm::vec2(randDir(randomEngine), 0.f);
-	if (m_direction.length() == 0) m_direction = glm::vec2(1.0f, 0.0f);
-	m_direction = glm::normalize(m_direction);
+	m_direction = glm::vec2(1.0f, 0.0f);
 
 	m_color = KlaoudeEngine::ColorRGBA8(255, 0, 0, 255);
 	m_textureID = KlaoudeEngine::RessourceManager::getTexture("Textures/Player.png").id;

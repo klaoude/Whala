@@ -3,8 +3,10 @@
 #include <algorithm>
 #include <SDL/SDL.h>
 
-Entity::Entity(int sizeX, int sizeY) : m_speed(0.f), m_sizeX(sizeX), m_sizeY(sizeY)
+Entity::Entity(int sizeX, int sizeY, float health, float imunity) : m_speed(0.f), m_sizeX(sizeX), m_sizeY(sizeY)
 {
+	m_health = health;
+	m_imunity = imunity;
 }
 
 Entity::~Entity()
@@ -230,4 +232,17 @@ void Entity::jump(float deltaTime, const std::vector<std::string>& levelData, Kl
 	{
 		m_speed.y = 0;
 	}
+}
+
+bool Entity::takeDamage(float damage)
+{
+	if (m_imunity == 0)
+	{
+		m_health -= damage;
+		m_imunity = 1000;
+	}
+	if (m_imunity == -1)
+		m_health -= damage;
+
+	return m_health <= 0;
 }
