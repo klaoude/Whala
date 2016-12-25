@@ -48,6 +48,7 @@ protected:
 	float m_gravity;
 	float m_jumpForce;
 	float m_dJumpForce;
+	int m_jumpTime;
 
 	bool m_isJumping = false;
 };
