@@ -4,8 +4,17 @@
 
 #include <KlaoudeEngine\SpriteBatch.h>
 #include <KlaoudeEngine\InputManager.h>
+#include <KlaoudeEngine/TileSheet.h>
 
 class Player;
+
+enum class MoveState
+{
+	STANDING,
+	RUNNING,
+	PUNCHING,
+	IN_AIR
+};
 
 class Entity
 {
@@ -13,7 +22,7 @@ public:
 	Entity(int sizeX, int sizeY, float health, float imunity = -1);
 	virtual ~Entity();
 
-	virtual void update(const std::vector<std::string>& levelData, float deltaTime, Player* player) = 0;
+	virtual void update(const std::vector<std::string>& levelData, float deltaTime, Player* player);
 
 	void draw(KlaoudeEngine::SpriteBatch& spriteBatch);
 
@@ -26,6 +35,8 @@ public:
 	float getSizeY() const { return m_sizeY; }
 	bool takeDamage(float damage);
 
+
+	glm::vec2 m_speed;
 protected:
 	void checkTilePosition(const std::vector<std::string>& levelData, std::vector<glm::vec2>& collideTilePos, float x, float y);
 	void collideWithTile(glm::vec2 tilePos);
@@ -42,9 +53,14 @@ protected:
 
 	glm::vec2 m_position;
 	glm::vec2 m_direction = glm::vec2(1.f, 0.f);
-	glm::vec2 m_speed;
+	
 	KlaoudeEngine::ColorRGBA8 m_color;
-	GLuint m_textureID;
+	KlaoudeEngine::TileSheet m_texture;
+
+	//Animation
+	MoveState m_moveState = MoveState::STANDING;
+	float m_animTime = 0.f;
+	int m_dir = 1;
 
 	int m_sizeX;
 	int m_sizeY;
@@ -57,5 +73,6 @@ protected:
 	int m_health = 100;
 
 	bool m_isJumping = false;
+	bool m_onGround = false;
 };
 

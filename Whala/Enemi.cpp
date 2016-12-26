@@ -19,11 +19,16 @@ void Enemi::init(glm::vec2 speed, glm::vec2 position)
 	m_direction = glm::vec2(1.0f, 0.0f);
 
 	m_color = KlaoudeEngine::ColorRGBA8(255, 0, 0, 255);
-	m_textureID = KlaoudeEngine::RessourceManager::getTexture("Textures/Player.png").id;
+	KlaoudeEngine::GLTexture texture = KlaoudeEngine::RessourceManager::getTexture("Textures/Player.png");
+	m_texture.init(texture, glm::ivec2(10, 2));
 }
 
 void Enemi::update(const std::vector<std::string>& levelData, float deltaTime, Player* player)
 {
+	m_onGround = false;
+	if (isGrounded(levelData))
+		m_onGround = true;
+
 	static std::mt19937 randomEngine(time(nullptr));
 	static std::uniform_int_distribution<int> randDir(-1, 1);
 	static std::uniform_int_distribution<int> randJump(0, 1);

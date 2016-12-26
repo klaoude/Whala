@@ -23,6 +23,8 @@ public:
 
 	void update(const std::vector<std::string>& levelData, float deltaTime, Player* player) override;
 
+	void draw(KlaoudeEngine::SpriteBatch& spriteBatch);
+
 	int getHealth() { return m_health; }
 	
 private:
@@ -30,8 +32,6 @@ private:
 	KlaoudeEngine::Camera2D* m_camera;	
 
 	std::vector<Attack>* m_attacks;
-
-	bool m_left = false;
 
 	int m_zCooldown = 0;
 };

@@ -109,16 +109,16 @@ void MainGame::gameLoop()
 
 			m_player->update(m_levels[0]->getLevelData(), deltaTime, m_player);
 			
+			drawGame();
+
 			totalDeltaTime -= deltaTime;
 			i++;
-		}
+		}		
 
 		m_camera.setPosition(m_player->getPosition());
 		m_camera.update();
 
-		m_hudCamera.update();
-
-		drawGame();
+		m_hudCamera.update();				
 
 		m_fps = fpsLimiter.end();
 	}

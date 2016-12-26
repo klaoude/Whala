@@ -13,6 +13,13 @@ Entity::~Entity()
 {
 }
 
+void Entity::update(const std::vector<std::string>& levelData, float deltaTime, Player * player)
+{
+	m_onGround = false;
+	if (isGrounded(levelData))
+		m_onGround = true;
+}
+
 bool Entity::collideWithLevel(const std::vector<std::string>& levelData)
 {
 	std::vector<glm::vec2> collideTilePos;
@@ -72,7 +79,7 @@ void Entity::draw(KlaoudeEngine::SpriteBatch& spritebatch)
 
 	glm::vec4 destRect(m_position.x, m_position.y, m_sizeX, m_sizeY);
 
-	spritebatch.draw(destRect, uvRect, m_textureID, 0.0f, m_color, m_direction);
+	spritebatch.draw(destRect, uvRect, m_texture.texture.id, 0.0f, m_color, m_direction);
 }
 
 void Entity::checkTilePosition(const std::vector<std::string>& levelData, std::vector<glm::vec2>& collideTilePos, float x, float y)
@@ -190,13 +197,12 @@ bool Entity::isPlafon(const std::vector<std::string>& levelData)
 void Entity::applyForce(float deltaTime, const std::vector<std::string>& levelData)
 {
 	m_gravity = -0.03f * deltaTime;
-	if (isGrounded(levelData))
+	if (m_onGround)
 		m_speed.y -= m_gravity;
 	m_speed.y += m_gravity;
 	if (m_isJumping)
 		m_speed.y += m_dJumpForce;
 	m_position += m_speed;
-	m_speed.x = 0;
 }
 
 void Entity::jump(float deltaTime, const std::vector<std::string>& levelData, KlaoudeEngine::InputManager* inputManager)
@@ -219,13 +225,13 @@ void Entity::jump(float deltaTime, const std::vector<std::string>& levelData, Kl
 		m_dJumpForce = m_jumpForce;
 		m_jumpTime = 0;
 	}
-	if (isGrounded(levelData) && m_dJumpForce == 0)
+	if (m_onGround && m_dJumpForce == 0)
 	{
 		m_isJumping = false;
 		m_speed.y = 0;
 		m_dJumpForce = 0;
 	}
-	else if (isGrounded(levelData) && !m_isJumping)
+	else if (m_onGround && !m_isJumping)
 		m_speed.y = 0;
 
 	if (isPlafon(levelData))
