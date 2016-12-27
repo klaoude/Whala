@@ -8,6 +8,7 @@
 
 #include <KlaoudeEngine\KlaoudeEngine.h>
 #include <KlaoudeEngine\Timing.h>
+#include <KlaoudeEngine\RessourceManager.h>
 
 MainGame::MainGame() :
 	m_screenWidth(1024),
