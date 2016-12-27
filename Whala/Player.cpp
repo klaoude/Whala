@@ -63,10 +63,10 @@ void Player::update(const std::vector<std::string>& levelData, float deltaTime, 
 	{
 		if (m_dir == -1)
 			m_attacks->push_back(Attack(glm::vec2(m_position.x - m_sizeX - 8.f, m_position.y + m_sizeY / 2.f - 8.f * 2.f),
-				glm::vec2(1.f, 0.f), 0.f, 10.f, 8.f, 8.f, 100));
+				glm::vec2(1.f, 0.f), 10.f, 10.f, 8.f, 8.f, true, 10000));
 		else
 			m_attacks->push_back(Attack(glm::vec2(m_position.x + m_sizeX, m_position.y + m_sizeY / 2.f - 8.f * 2.f),
-				glm::vec2(1.f, 0.f), 0.f, 10.f, 8.f, 8.f, 100));
+				glm::vec2(1.f, 0.f), 10.f, 10.f, 8.f, 8.f, false, 10000));
 
 		m_zCooldown = 150;
 	}		

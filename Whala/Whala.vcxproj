@@ -151,7 +151,9 @@
     <ClCompile Include="Attack.cpp" />
     <ClCompile Include="Enemi.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="Level.cpp" />
+    <ClCompile Include="MagicBook.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -160,7 +162,9 @@
     <ClInclude Include="Attack.h" />
     <ClInclude Include="Enemi.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="Level.h" />
+    <ClInclude Include="MagicBook.h" />
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="Player.h" />
   </ItemGroup>

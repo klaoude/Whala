@@ -26,7 +26,7 @@ public:
 	void draw(KlaoudeEngine::SpriteBatch& spriteBatch);
 
 	int getHealth() { return m_health; }
-	
+
 private:
 	KlaoudeEngine::InputManager* m_inputManager;
 	KlaoudeEngine::Camera2D* m_camera;	

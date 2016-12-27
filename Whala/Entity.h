@@ -35,8 +35,6 @@ public:
 	float getSizeY() const { return m_sizeY; }
 	bool takeDamage(float damage);
 
-
-	glm::vec2 m_speed;
 protected:
 	void checkTilePosition(const std::vector<std::string>& levelData, std::vector<glm::vec2>& collideTilePos, float x, float y);
 	void collideWithTile(glm::vec2 tilePos);
@@ -53,6 +51,7 @@ protected:
 
 	glm::vec2 m_position;
 	glm::vec2 m_direction = glm::vec2(1.f, 0.f);
+	glm::vec2 m_speed;
 	
 	KlaoudeEngine::ColorRGBA8 m_color;
 	KlaoudeEngine::TileSheet m_texture;

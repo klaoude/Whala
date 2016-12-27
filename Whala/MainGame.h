@@ -11,6 +11,7 @@
 #include "Level.h"
 #include "Enemi.h"
 #include "Attack.h"
+#include "MagicBook.h"
 
 enum class GameState
 {
@@ -36,6 +37,7 @@ private:
 	void drawHud();
 	void updateEntity(float deltaTime);
 	void updateAttack(float deltaTime);
+	void updateItem();
 
 	KlaoudeEngine::Window m_window;
 	KlaoudeEngine::GLSLProgram m_textureProgram;
@@ -55,6 +57,7 @@ private:
 	Player* m_player;
 	std::vector<Enemi*> m_enemies;
 	std::vector<Attack> m_attacks;
+	std::vector<Item*> m_items;
 
 	std::vector<Level*> m_levels;
 };

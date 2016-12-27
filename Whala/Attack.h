@@ -6,7 +6,7 @@ class Entity;
 class Attack
 {
 public:
-	Attack(glm::vec2 position, glm::vec2 direction, float speed, float damage, float sizeX, float sizeY, int lifeTime = -1);
+	Attack(glm::vec2 position, glm::vec2 direction, float speed, float damage, float sizeX, float sizeY, bool left, int lifeTime = -1);
 	~Attack();
 
 	bool update(const std::vector<std::string>& levelData, float deltaTime);
@@ -31,4 +31,6 @@ private:
 	float m_sizeY;
 
 	int m_lifeTime;
+
+	bool m_left;
 };

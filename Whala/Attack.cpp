@@ -5,7 +5,7 @@
 #include "Entity.h"
 #include "Level.h"
 
-Attack::Attack(glm::vec2 position, glm::vec2 direction, float speed, float damage, float sizeX, float sizeY, int lifeTime)
+Attack::Attack(glm::vec2 position, glm::vec2 direction, float speed, float damage, float sizeX, float sizeY, bool left, int lifeTime)
 {
 	m_position = position;
 	m_direction = direction;
@@ -14,6 +14,7 @@ Attack::Attack(glm::vec2 position, glm::vec2 direction, float speed, float damag
 	m_sizeX = sizeX;
 	m_sizeY = sizeY;
 	m_lifeTime = lifeTime;
+	m_left = left;
 }
 
 Attack::~Attack() {}
@@ -23,7 +24,10 @@ bool Attack::update(const std::vector<std::string>& levelData, float deltaTime)
 	if (m_lifeTime == 0)
 		return true;
 
-	m_position += m_direction * m_speed * deltaTime;
+	if(m_left)
+		m_position -= m_direction * m_speed * deltaTime;
+	else
+		m_position += m_direction * m_speed * deltaTime;
 
 	if (m_lifeTime != -1)
 		m_lifeTime--;
@@ -34,7 +38,14 @@ bool Attack::update(const std::vector<std::string>& levelData, float deltaTime)
 void Attack::draw(KlaoudeEngine::SpriteBatch & spriteBatch)
 {
 	glm::vec4 destRect(m_position.x + m_sizeX, m_position.y + m_sizeY, m_sizeX * 2.f, m_sizeY * 2.f);
-	const glm::vec4 uvRect(0.f, 0.f, 1.f, 1.f);
+	glm::vec4 uvRect(0.f, 0.f, 1.f, 1.f);
+
+	if (m_left)
+	{
+		uvRect.x += 1.f / m_sizeX;
+		uvRect.z *= -1;
+	}		
+
 	KlaoudeEngine::ColorRGBA8 color(255, 255, 255, 255);
 
 	spriteBatch.draw(destRect, uvRect, KlaoudeEngine::RessourceManager::getTexture("Textures/Attack.png").id, 0.f, color);

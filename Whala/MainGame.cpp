@@ -61,6 +61,9 @@ void MainGame::initLevel()
 
 	m_enemies.push_back(new Enemi());
 	m_enemies[0]->init(speed, glm::vec2(750, 750));
+
+	m_items.push_back(new MagicBook());
+	((MagicBook*)m_items[0])->init(glm::vec2(700, 725));
 }
 
 void MainGame::initShaders()
@@ -106,6 +109,7 @@ void MainGame::gameLoop()
 
 			updateEntity(deltaTime);
 			updateAttack(deltaTime);
+			updateItem();
 
 			m_player->update(m_levels[0]->getLevelData(), deltaTime, m_player);
 			
@@ -178,6 +182,9 @@ void MainGame::drawGame()
 
 	for each(Attack att in m_attacks)
 		att.draw(m_entitySpriteBatch);
+
+	for each(Item* it in m_items)
+		it->draw(m_entitySpriteBatch);
 
 	m_entitySpriteBatch.end();
 
@@ -257,6 +264,19 @@ void MainGame::updateAttack(float deltaTime)
 				break;
 			}
 			j++;
+		}
+	}
+}
+
+void MainGame::updateItem()
+{
+	for (int i = 0; i < m_items.size(); i++)
+	{
+		if (m_items[i]->update(m_player))
+		{
+			m_items[i] = m_items.back();
+			m_items.pop_back();
+			break;
 		}
 	}
 }
