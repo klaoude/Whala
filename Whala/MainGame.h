@@ -13,7 +13,6 @@
 #include "Enemi.h"
 #include "Attack.h"
 #include "MagicBook.h"
-#include "caca.h"
 
 enum class GameState
 {
@@ -63,6 +62,4 @@ private:
 	std::vector<Item*> m_items;
 
 	std::vector<Level*> m_levels;
-
-	caca* ca;
 };

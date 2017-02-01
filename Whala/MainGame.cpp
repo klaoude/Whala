@@ -50,8 +50,8 @@ void MainGame::initSystems()
 	m_camera.init(m_screenWidth, m_screenHeight);
 	m_hudCamera.init(m_screenWidth, m_screenHeight);
 	m_hudCamera.setPosition(glm::vec2(m_screenWidth / 2, m_screenHeight / 2));
-	m_hud = new Hud();
-	ca = new caca();
+	m_hud = new Hud(m_screenWidth, m_screenHeight);
+
 }
 
 void MainGame::initLevel()
@@ -215,7 +215,6 @@ void MainGame::drawHud()
 
 	m_spriteFont->draw(m_hudSpriteBatch, str1Buffer, glm::vec2(0.f), glm::vec2(1.f), 0.f, KlaoudeEngine::ColorRGBA8(255, 255, 255, 255));
 	m_hud->draw(m_hudSpriteBatch);
-	ca->draw(m_hudSpriteBatch);
 
 	m_hudSpriteBatch.end();
 	m_hudSpriteBatch.renderBatch();

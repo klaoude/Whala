@@ -7,9 +7,8 @@ class Player;
 class Hud
 {
 public:
-	Hud();
+	Hud(float width, float height);
 	
-	void init();
 	void draw(KlaoudeEngine::SpriteBatch& spriteBatch);
 
 	void setPlayer(Player *player) { m_player = player;  }
@@ -17,8 +16,14 @@ public:
 
 private:
 	Player *m_player;
-	glm::vec4 m_uvRect, m_destRect;
 	GLuint m_texture;
-	KlaoudeEngine::ColorRGBA8 m_color;
+
+	glm::vec4 m_uvRect, m_destRect;
+
+	float m_width, m_height;
+
+
+
+
 
 };
