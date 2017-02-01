@@ -11,8 +11,8 @@
 #include <KlaoudeEngine\RessourceManager.h>
 
 MainGame::MainGame() :
-	m_screenWidth(800),
-	m_screenHeight(600),
+	m_screenWidth(1440),
+	m_screenHeight(900),
 	m_fps(0),
 	m_gameState(GameState::PLAY)
 {}
