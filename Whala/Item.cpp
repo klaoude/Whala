@@ -22,6 +22,11 @@ void Item::draw(KlaoudeEngine::SpriteBatch & spriteBatch)
 	spriteBatch.draw(destRect, uvRect, m_texture.texture.id, m_scale, m_color, m_direction);
 }
 
+void Item::applyEffect(Player* player)
+{
+	player->addAttackSpeed(5.f);
+}
+
 bool Item::collideWithPlayer(Player * player)
 {
 	const float MIN_DIST_X = m_sizeX / 2.f;

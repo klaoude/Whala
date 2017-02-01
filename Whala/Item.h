@@ -15,6 +15,8 @@ public:
 
 	void draw(KlaoudeEngine::SpriteBatch& spriteBatch);
 
+	void applyEffect(Player* player);
+
 protected:
 	bool collideWithPlayer(Player* player);
 

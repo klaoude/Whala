@@ -11,8 +11,8 @@
 #include <KlaoudeEngine\RessourceManager.h>
 
 MainGame::MainGame() :
-	m_screenWidth(1024),
-	m_screenHeight(768),
+	m_screenWidth(800),
+	m_screenHeight(600),
 	m_fps(0),
 	m_gameState(GameState::PLAY)
 {}
@@ -275,6 +275,7 @@ void MainGame::updateItem()
 	{
 		if (m_items[i]->update(m_player))
 		{
+			m_items[i]->applyEffect(m_player);
 			m_items[i] = m_items.back();
 			m_items.pop_back();
 			break;

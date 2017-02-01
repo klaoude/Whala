@@ -68,7 +68,7 @@ void Player::update(const std::vector<std::string>& levelData, float deltaTime, 
 			m_attacks->push_back(Attack(glm::vec2(m_position.x + m_sizeX, m_position.y + m_sizeY / 2.f - 8.f * 2.f),
 				glm::vec2(1.f, 0.f), 10.f, 10.f, 8.f, 8.f, false, 10000));
 
-		m_zCooldown = 150;
+		m_zCooldown = 150.f - 10.f*(m_attackSpeed - 1.f);
 	}		
 
 	jump(deltaTime, levelData, m_inputManager);

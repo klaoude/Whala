@@ -27,11 +27,14 @@ public:
 
 	int getHealth() { return m_health; }
 
+	void addAttackSpeed(float value) { m_attackSpeed += value; }
+
 private:
 	KlaoudeEngine::InputManager* m_inputManager;
 	KlaoudeEngine::Camera2D* m_camera;	
 
 	std::vector<Attack>* m_attacks;
 
-	int m_zCooldown = 0;
+	float m_attackSpeed = 1.0f;
+	float m_zCooldown = 0;
 };
