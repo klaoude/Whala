@@ -1,20 +1,23 @@
-//#pragma once
-//#include <klaoudeengine\spritebatch.h>
-//
-//class player;
-//
-//class hud
-//{
-//public:
-//	hud(player player);
-//	
-//	void update();
-//	void draw();
-//private:
-//	player m_player;
-//	glm::vec4 m_uvrect, m_destrect;
-//	klaoudeengine::gltexture m_texture;
-//
-//	klaoudeengine::camera2d m_camera;
-//
-//};
+#pragma once
+#include <klaoudeengine\spritebatch.h>
+#include <KlaoudeEngine/TileSheet.h>
+
+class Player;
+
+class Hud
+{
+public:
+	Hud();
+	
+	void init();
+	void draw(KlaoudeEngine::SpriteBatch& spritebatch);
+
+	void setPlayer(Player *player) { m_player = player;  }
+
+
+private:
+	Player *m_player;
+	glm::vec4 m_uvRect, m_destRect;
+	KlaoudeEngine::GLTexture m_texture;
+
+};

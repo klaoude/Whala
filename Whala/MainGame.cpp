@@ -50,6 +50,7 @@ void MainGame::initSystems()
 	m_camera.init(m_screenWidth, m_screenHeight);
 	m_hudCamera.init(m_screenWidth, m_screenHeight);
 	m_hudCamera.setPosition(glm::vec2(m_screenWidth / 2, m_screenHeight / 2));
+	m_hud = new Hud();
 }
 
 void MainGame::initLevel()
@@ -59,7 +60,8 @@ void MainGame::initLevel()
 	m_player = new Player();
 	glm::vec2 speed(0, 0);
 	m_player->init(speed, glm::vec2(1000, 750), &m_attacks, &m_inputManager, &m_camera);
-
+	m_hud->setPlayer(m_player);
+	
 	m_enemies.push_back(new Enemi());
 	m_enemies[0]->init(speed, glm::vec2(750, 750));
 
@@ -208,6 +210,7 @@ void MainGame::drawHud()
 
 	m_hudSpriteBatch.begin();
 
+	m_hud->draw(m_hudSpriteBatch);
 	sprintf(str1Buffer, "Health : %d", m_player->getHealth());
 
 	m_spriteFont->draw(m_hudSpriteBatch, str1Buffer, glm::vec2(0.f), glm::vec2(1.f), 0.f, KlaoudeEngine::ColorRGBA8(255, 255, 255, 255));
