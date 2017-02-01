@@ -8,6 +8,7 @@
 #include <KlaoudeEngine\SpriteFont.h>
 
 #include "Player.h"
+#include "Hud.h"
 #include "Level.h"
 #include "Enemi.h"
 #include "Attack.h"
@@ -53,6 +54,7 @@ private:
 	int m_currentLevel;
 
 	GameState m_gameState;
+	Hud* m_hud;
 
 	Player* m_player;
 	std::vector<Enemi*> m_enemies;
