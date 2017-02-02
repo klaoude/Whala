@@ -70,6 +70,7 @@ protected:
 	int m_jumpTime;
 	int m_imunity = 0;
 	int m_health = 100;
+	int m_maxhealth = 100;
 
 	bool m_isJumping = false;
 	bool m_onGround = false;

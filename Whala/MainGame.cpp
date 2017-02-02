@@ -211,9 +211,6 @@ void MainGame::drawHud()
 
 	m_hudSpriteBatch.begin();
 	
-	sprintf(str1Buffer, "Health : %d", m_player->getHealth());
-
-	m_spriteFont->draw(m_hudSpriteBatch, str1Buffer, glm::vec2(0.f), glm::vec2(1.f), 0.f, KlaoudeEngine::ColorRGBA8(255, 255, 255, 255));
 	m_hud->draw(m_hudSpriteBatch);
 
 	m_hudSpriteBatch.end();

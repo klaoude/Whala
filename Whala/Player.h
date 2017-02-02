@@ -26,6 +26,9 @@ public:
 	void draw(KlaoudeEngine::SpriteBatch& spriteBatch);
 
 	int getHealth() { return m_health; }
+	int getMaxHealth() { return m_maxhealth; }
+	float getAttackSpeed() { return m_attackSpeed; }
+	float getzCool() { return m_zCooldown; }
 
 	void addAttackSpeed(float value) { m_attackSpeed += value; }
 
