@@ -213,10 +213,10 @@ void Entity::jump(float deltaTime, const std::vector<std::string>& levelData, Kl
 		m_jumpTime++;
 
 		if (inputManager != nullptr && m_jumpTime < 100 && inputManager->isKeyDown(SDLK_UP))
-			m_speed.y += 0.1 * deltaTime;
+			m_speed.y += 0.1f * deltaTime;
 
 		if (m_dJumpForce > 0)
-			m_dJumpForce -= 0.1 * deltaTime;
+			m_dJumpForce -= 0.1f * deltaTime;
 		else
 			m_dJumpForce = 0;
 	}

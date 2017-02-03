@@ -28,7 +28,8 @@ public:
 	int getHealth() { return m_health; }
 	int getMaxHealth() { return m_maxhealth; }
 	float getAttackSpeed() { return m_attackSpeed; }
-	float getzCool() { return m_zCooldown; }
+	float getzCoolCur() { return (m_zCooldown - m_frameCounter ? m_zCooldown - m_frameCounter < 0 : 0); }
+	float getzCoolMax() { return m_zCooldown; }
 
 	void addAttackSpeed(float value) { m_attackSpeed += value; }
 
@@ -38,6 +39,7 @@ private:
 
 	std::vector<Attack>* m_attacks;
 
-	float m_attackSpeed = 1.0f;
-	float m_zCooldown = 0;
+	float m_attackSpeed;
+	float m_zCooldown;
+	float m_frameCounter;
 };

@@ -11,8 +11,8 @@
 #include <KlaoudeEngine\RessourceManager.h>
 
 MainGame::MainGame() :
-	m_screenWidth(1440),
-	m_screenHeight(900),
+	m_screenWidth(800),
+	m_screenHeight(600),
 	m_fps(0),
 	m_gameState(GameState::PLAY)
 {}
@@ -82,10 +82,10 @@ void MainGame::initShaders()
 void MainGame::gameLoop()
 {
 	const float DESIRED_FPS = 60.0f;
-	const int MAX_PHYSICS_STEPS = 5;
+	const int MAX_PHYSICS_STEPS = 6;
 
 	KlaoudeEngine::FpsLimiter fpsLimiter;
-	fpsLimiter.setMaxFPS(33300.0f);
+	fpsLimiter.setMaxFPS(0.0f);
 
 	const float MS_PER_SEC = 1000.0f;
 	const float DESIRED_FRAMETIME = MS_PER_SEC / DESIRED_FPS;
@@ -116,8 +116,6 @@ void MainGame::gameLoop()
 			updateItem();
 
 			m_player->update(m_levels[0]->getLevelData(), deltaTime, m_player);
-			
-			drawGame();
 
 			totalDeltaTime -= deltaTime;
 			i++;
@@ -126,7 +124,9 @@ void MainGame::gameLoop()
 		m_camera.setPosition(m_player->getPosition());
 		m_camera.update();
 
-		m_hudCamera.update();				
+		m_hudCamera.update();	
+
+		drawGame();
 
 		m_fps = fpsLimiter.end();
 	}
@@ -203,14 +203,20 @@ void MainGame::drawGame()
 
 void MainGame::drawHud()
 {
-	char str1Buffer[256];
+	char pos[256], fps[256];
 
 	glm::mat4 projectionMatrix = m_hudCamera.getCameraMatrix();
 	GLint pUniform = m_textureProgram.getUniformLocation("P");
 	glUniformMatrix4fv(pUniform, 1, GL_FALSE, &projectionMatrix[0][0]);
 
+	sprintf(pos, "Position : (%f, %f)", m_player->getPosition().x, m_player->getPosition().y);
+	sprintf(fps, "FPS : %f", m_fps);
+
 	m_hudSpriteBatch.begin();
 	
+	m_spriteFont->draw(m_hudSpriteBatch, pos, glm::vec2(0.f, m_screenHeight - 30.f), glm::vec2(0.5f), 0.f, KlaoudeEngine::ColorRGBA8(255, 255, 255, 255));
+	m_spriteFont->draw(m_hudSpriteBatch, fps, glm::vec2(0.f, m_screenHeight - 50.f), glm::vec2(0.5f), 0.f, KlaoudeEngine::ColorRGBA8(255, 255, 255, 255));
+
 	m_hud->draw(m_hudSpriteBatch);
 
 	m_hudSpriteBatch.end();

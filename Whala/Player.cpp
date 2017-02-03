@@ -34,12 +34,20 @@ void Player::init(glm::vec2 speed,
 	m_color.b = 255;
 	m_color.a = 255;
 	m_camera = camera;
+
 	KlaoudeEngine::GLTexture texture = KlaoudeEngine::RessourceManager::getTexture("Textures/Player.png");
 	m_texture.init(texture, glm::ivec2(10, 2));
+
+	m_frameCounter = 0.f;
+	m_zCooldown = 30.f;
+	m_attackSpeed = 1.f;
 }
 
 void Player::update(const std::vector<std::string>& levelData, float deltaTime, Player* player)
 {
+	m_frameCounter += 1.f * deltaTime;
+	m_zCooldown = m_zCooldown - (m_attackSpeed - 1.f);
+
 	m_onGround = false;
 	if (isGrounded(levelData))
 		m_onGround = true;
@@ -59,16 +67,16 @@ void Player::update(const std::vector<std::string>& levelData, float deltaTime, 
 	else if (m_inputManager->isKeyDown(SDLK_UP))
 		m_isJumping = true;
 
-	if (m_zCooldown == 0 && m_inputManager->isKeyDown(SDLK_z))
+	if (m_frameCounter >= m_zCooldown && m_inputManager->isKeyDown(SDLK_z))
 	{
 		if (m_dir == -1)
 			m_attacks->push_back(Attack(glm::vec2(m_position.x - m_sizeX - 8.f, m_position.y + m_sizeY / 2.f - 8.f * 2.f),
-				glm::vec2(1.f, 0.f), 10.f, 10.f, 8.f, 8.f, true, 10000));
+				glm::vec2(1.f, 0.f), 10.f, 10.f, 8.f, 8.f, true, 25));
 		else
 			m_attacks->push_back(Attack(glm::vec2(m_position.x + m_sizeX, m_position.y + m_sizeY / 2.f - 8.f * 2.f),
-				glm::vec2(1.f, 0.f), 10.f, 10.f, 8.f, 8.f, false, 10000));
+				glm::vec2(1.f, 0.f), 10.f, 10.f, 8.f, 8.f, false, 25));
 
-		m_zCooldown = 150.f - 10.f*(m_attackSpeed - 1.f);
+		m_frameCounter = 0.f;
 	}		
 
 	jump(deltaTime, levelData, m_inputManager);
@@ -79,9 +87,6 @@ void Player::update(const std::vector<std::string>& levelData, float deltaTime, 
 
 	if (m_imunity > 0)
 		m_imunity--;
-
-	if (m_zCooldown > 0)
-		m_zCooldown--;
 }
 
 void Player::draw(KlaoudeEngine::SpriteBatch & spriteBatch)
@@ -99,7 +104,7 @@ void Player::draw(KlaoudeEngine::SpriteBatch & spriteBatch)
 		{
 			numTiles = 6;
 			tileIndex = 10;
-			animationSpeed = 0.008f;
+			animationSpeed = 0.08f;
 			if (m_moveState != MoveState::RUNNING)
 			{
 				m_moveState = MoveState::RUNNING;

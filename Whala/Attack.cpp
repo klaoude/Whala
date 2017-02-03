@@ -15,22 +15,22 @@ Attack::Attack(glm::vec2 position, glm::vec2 direction, float speed, float damag
 	m_sizeY = sizeY;
 	m_lifeTime = lifeTime;
 	m_left = left;
+	m_frameCounter = 0.f;
 }
 
 Attack::~Attack() {}
 
 bool Attack::update(const std::vector<std::string>& levelData, float deltaTime)
 {
-	if (m_lifeTime == 0)
+	m_frameCounter += 1.0f * deltaTime;
+
+	if (m_frameCounter >= m_lifeTime)
 		return true;
 
 	if(m_left)
 		m_position -= m_direction * m_speed * deltaTime;
 	else
 		m_position += m_direction * m_speed * deltaTime;
-
-	if (m_lifeTime != -1)
-		m_lifeTime--;
 
 	return false;//return CollideWithWorld(levelData);
 }

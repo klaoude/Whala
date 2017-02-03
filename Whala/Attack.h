@@ -33,4 +33,6 @@ private:
 	int m_lifeTime;
 
 	bool m_left;
+
+	float m_frameCounter = 0.f;
 };

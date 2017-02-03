@@ -2,7 +2,7 @@
 
 #include "Player.h"
 
-Item::Item(int sizeX, int sizeY, float scale)
+Item::Item(int sizeX, int sizeY, float scale) : m_color(255, 255, 255, 255)
 {
 	m_sizeX = sizeX / scale;
 	m_sizeY = sizeY / scale;
