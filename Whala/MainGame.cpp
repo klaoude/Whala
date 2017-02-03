@@ -51,7 +51,6 @@ void MainGame::initSystems()
 	m_hudCamera.init(m_screenWidth, m_screenHeight);
 	m_hudCamera.setPosition(glm::vec2(m_screenWidth / 2, m_screenHeight / 2));
 	m_hud = new Hud(m_screenWidth, m_screenHeight);
-
 }
 
 void MainGame::initLevel()

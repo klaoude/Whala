@@ -13,6 +13,9 @@
 
 Player::Player() : m_inputManager(nullptr), Entity(SIZE_X, SIZE_Y, 100, 0)
 {
+	m_frameCounter = 0.f;
+	m_zCooldown = 30.f;
+	m_attackSpeed = 1.f;
 }
 
 Player::~Player()
@@ -37,10 +40,6 @@ void Player::init(glm::vec2 speed,
 
 	KlaoudeEngine::GLTexture texture = KlaoudeEngine::RessourceManager::getTexture("Textures/Player.png");
 	m_texture.init(texture, glm::ivec2(10, 2));
-
-	m_frameCounter = 0.f;
-	m_zCooldown = 30.f;
-	m_attackSpeed = 1.f;
 }
 
 void Player::update(const std::vector<std::string>& levelData, float deltaTime, Player* player)

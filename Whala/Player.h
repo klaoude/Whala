@@ -28,7 +28,12 @@ public:
 	int getHealth() { return m_health; }
 	int getMaxHealth() { return m_maxhealth; }
 	float getAttackSpeed() { return m_attackSpeed; }
-	float getzCoolCur() { return (m_zCooldown - m_frameCounter ? m_zCooldown - m_frameCounter > 0 : 0); }
+	float getzCoolCur() 
+	{ 
+		if (m_zCooldown - m_frameCounter > 0)
+			return m_zCooldown - m_frameCounter;
+		return 0;
+	}
 	float getzCoolMax() { return m_zCooldown; }
 
 	void addAttackSpeed(float value) { m_attackSpeed += value; }
