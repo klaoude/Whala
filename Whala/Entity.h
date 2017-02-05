@@ -45,13 +45,14 @@ protected:
 
 	bool isPlafon(const std::vector<std::string>& levelData);
 
-	void applyForce(float deltaTime, const std::vector<std::string>& levelData);
+	void applyForce(float deltaTime);
 
 	void jump(float deltaTime, const std::vector<std::string>& levelData, KlaoudeEngine::InputManager* inputManager = nullptr);
 
 	glm::vec2 m_position;
 	glm::vec2 m_direction = glm::vec2(1.f, 0.f);
 	glm::vec2 m_speed;
+	glm::vec2 m_vel;
 	
 	KlaoudeEngine::ColorRGBA8 m_color;
 	KlaoudeEngine::TileSheet m_texture;

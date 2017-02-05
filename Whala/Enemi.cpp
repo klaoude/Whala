@@ -33,7 +33,7 @@ void Enemi::update(const std::vector<std::string>& levelData, float deltaTime, P
 	static std::uniform_int_distribution<int> randDir(-1, 1);
 	static std::uniform_int_distribution<int> randJump(0, 1);
 
-	applyForce(deltaTime, levelData);
+	applyForce(deltaTime);
 
 	glm::vec2 distVec = player->getPosition() - m_position;
 	float distance = glm::length(distVec);

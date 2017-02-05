@@ -110,7 +110,7 @@ void MainGame::gameLoop()
 		{
 			float deltaTime = std::min(totalDeltaTime, MAX_DELTA_TIME);
 
-			updateEntity(deltaTime);
+			//updateEntity(deltaTime);
 			updateAttack(deltaTime);
 			updateItem();
 
