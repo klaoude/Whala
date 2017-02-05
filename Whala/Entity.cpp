@@ -233,22 +233,24 @@ void Entity::applyForce(float deltaTime)
 
 void Entity::jump(float deltaTime, const std::vector<std::string>& levelData, KlaoudeEngine::InputManager* inputManager)
 {
-	m_jumpForce = 0.5f * deltaTime;
-	if (m_isJumping)
+
+	if (m_isJumping) //if player is jumping
 	{
-		m_jumpTime++;
+		m_jumpTime++; //increase jump time
 
-		if (inputManager != nullptr && m_jumpTime < 100 && inputManager->isKeyDown(SDLK_UP))
-			m_speed.y += 0.1f * deltaTime;
+		if (inputManager != nullptr && m_jumpTime < 120 && inputManager->isKeyDown(SDLK_UP)) // if he's still pressing jump key
+			m_dJumpForce = 0.1f * deltaTime;
 
-		if (m_dJumpForce > 0)
-			m_dJumpForce -= 0.1f * deltaTime;
-		else
+
+		else if (m_speed.y > 0)
+		{
 			m_dJumpForce = 0;
+			m_speed.y -= 0.02 * deltaTime;
+		}
 	}
 	else
 	{
-		m_dJumpForce = m_jumpForce;
+		m_dJumpForce = 0;
 		m_jumpTime = 0;
 	}
 	if (m_onGround && m_dJumpForce == 0)
