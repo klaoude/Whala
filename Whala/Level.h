@@ -5,7 +5,7 @@
 
 #include<KlaoudeEngine\SpriteBatch.h>
 
-const int TILE_WIDTH = 32;
+const float TILE_WIDTH = 24;
 
 class Level
 {

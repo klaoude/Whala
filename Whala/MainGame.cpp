@@ -92,6 +92,10 @@ void MainGame::gameLoop()
 
 	float previousTicks = SDL_GetTicks();
 
+	const float CAMERA_SCALE = 1.2f;
+
+	m_camera.setScale(CAMERA_SCALE);
+
 	while (m_gameState == GameState::PLAY)
 	{
 		fpsLimiter.begin();
@@ -120,7 +124,7 @@ void MainGame::gameLoop()
 			i++;
 		}		
 
-		m_camera.setPosition(m_player->getPosition());
+		m_camera.setPosition(m_player->getPosition() * CAMERA_SCALE);
 		m_camera.update();
 
 		m_hudCamera.update();	
