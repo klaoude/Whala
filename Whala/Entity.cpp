@@ -194,77 +194,77 @@ bool Entity::isPlafon(const std::vector<std::string>& levelData)
 	return false;
 }
 
-void Entity::applyForce(float deltaTime)
-{
-	m_gravity = -0.03f;	
-	m_vel.y += m_gravity;
-	m_position.y += m_vel.y;
-	if (m_onGround)
-		m_vel.y = 0.f;
-	m_position += m_speed;
-}
-
-void Entity::jump(float deltaTime, const std::vector<std::string>& levelData, KlaoudeEngine::InputManager* inputManager)
-{
-	if (inputManager != nullptr && inputManager->isKeyPressed(SDLK_UP) && m_onGround)
-		m_vel.y = 500.f;
-	/*if (inputManager != nullptr && !inputManager->isKeyDown(SDLK_UP))
-	{
-		if (m_vel.y < 6.f)
-			m_vel.y = 6.f;
-	}*/
-
-	if (isPlafon(levelData))
-	{
-		m_vel.y = 0;
-	}
-}
-
-//void Entity::applyForce(float deltaTime, const std::vector<std::string>& levelData)
+//void Entity::applyForce(float deltaTime)
 //{
-//	m_gravity = -0.03f * deltaTime;
+//	m_gravity = -0.03f;	
+//	m_vel.y += m_gravity;
+//	m_position.y += m_vel.y;
 //	if (m_onGround)
-//		m_speed.y -= m_gravity;
-//	m_speed.y += m_gravity;
-//	if (m_isJumping)
-//		m_speed.y += m_dJumpForce;
+//		m_vel.y = 0.f;
 //	m_position += m_speed;
 //}
 //
 //void Entity::jump(float deltaTime, const std::vector<std::string>& levelData, KlaoudeEngine::InputManager* inputManager)
 //{
-//	m_jumpForce = 0.5f * deltaTime;
-//	if (m_isJumping)
+//	if (inputManager != nullptr && inputManager->isKeyPressed(SDLK_UP) && m_onGround)
+//		m_vel.y = 50.f;
+//	/*if (inputManager != nullptr && !inputManager->isKeyDown(SDLK_UP))
 //	{
-//		m_jumpTime++;
-//
-//		if (inputManager != nullptr && m_jumpTime < 100 && inputManager->isKeyDown(SDLK_UP))
-//			m_speed.y += 0.1f * deltaTime;
-//
-//		if (m_dJumpForce > 0)
-//			m_dJumpForce -= 0.1f * deltaTime;
-//		else
-//			m_dJumpForce = 0;
-//	}
-//	else
-//	{
-//		m_dJumpForce = m_jumpForce;
-//		m_jumpTime = 0;
-//	}
-//	if (m_onGround && m_dJumpForce == 0)
-//	{
-//		m_isJumping = false;
-//		m_speed.y = 0;
-//		m_dJumpForce = 0;
-//	}
-//	else if (m_onGround && !m_isJumping)
-//		m_speed.y = 0;
+//		if (m_vel.y < 6.f)
+//			m_vel.y = 6.f;
+//	}*/
 //
 //	if (isPlafon(levelData))
 //	{
-//		m_speed.y = 0;
+//		m_vel.y = 0;
 //	}
 //}
+
+void Entity::applyForce(float deltaTime)
+{
+	m_gravity = -0.03f * deltaTime;
+	if (m_onGround)
+		m_speed.y -= m_gravity;
+	m_speed.y += m_gravity;
+	if (m_isJumping)
+		m_speed.y += m_dJumpForce;
+	m_position += m_speed;
+}
+
+void Entity::jump(float deltaTime, const std::vector<std::string>& levelData, KlaoudeEngine::InputManager* inputManager)
+{
+	m_jumpForce = 0.5f * deltaTime;
+	if (m_isJumping)
+	{
+		m_jumpTime++;
+
+		if (inputManager != nullptr && m_jumpTime < 100 && inputManager->isKeyDown(SDLK_UP))
+			m_speed.y += 0.1f * deltaTime;
+
+		if (m_dJumpForce > 0)
+			m_dJumpForce -= 0.1f * deltaTime;
+		else
+			m_dJumpForce = 0;
+	}
+	else
+	{
+		m_dJumpForce = m_jumpForce;
+		m_jumpTime = 0;
+	}
+	if (m_onGround && m_dJumpForce == 0)
+	{
+		m_isJumping = false;
+		m_speed.y = 0;
+		m_dJumpForce = 0;
+	}
+	else if (m_onGround && !m_isJumping)
+		m_speed.y = 0;
+
+	if (isPlafon(levelData))
+	{
+		m_speed.y = 0;
+	}
+}
 
 bool Entity::takeDamage(float damage)
 {

@@ -61,10 +61,10 @@ void Player::update(const std::vector<std::string>& levelData, float deltaTime, 
 		m_speed.x = 4 * deltaTime;
 		m_dir = 1;
 	}
-	/*if (m_inputManager->isKeyDown(SDLK_DOWN))
+	if (m_inputManager->isKeyDown(SDLK_DOWN))
 		m_position.y -= m_speed.x * deltaTime;
 	else if (m_inputManager->isKeyDown(SDLK_UP))
-		m_isJumping = true;*/
+		m_isJumping = true;
 
 	if (m_frameCounter >= m_zCooldown && m_inputManager->isKeyDown(SDLK_z))
 	{
