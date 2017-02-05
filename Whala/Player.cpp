@@ -64,8 +64,11 @@ void Player::update(const std::vector<std::string>& levelData, float deltaTime, 
 	if (m_inputManager->isKeyDown(SDLK_DOWN))
 		m_position.y -= m_speed.x * deltaTime;
 	else if (m_inputManager->isKeyDown(SDLK_UP))
+	{
+		if (!m_isJumping)
+			m_speed.y += 1 * deltaTime;
 		m_isJumping = true;
-
+	}
 	if (m_frameCounter >= m_zCooldown && m_inputManager->isKeyDown(SDLK_z))
 	{
 		if (m_dir == -1)
@@ -90,6 +93,8 @@ void Player::update(const std::vector<std::string>& levelData, float deltaTime, 
 
 void Player::draw(KlaoudeEngine::SpriteBatch & spriteBatch)
 {	
+	std::cout << m_isJumping << std::endl;
+
 	glm::vec4 destRect(m_position.x, m_position.y, m_sizeX, m_sizeY);
 
 	int tileIndex;
@@ -112,7 +117,6 @@ void Player::draw(KlaoudeEngine::SpriteBatch & spriteBatch)
 		}
 		else if(m_speed.x == 0.f)
 		{
-			std::cout << m_speed.x << std::endl;
 			tileIndex = 0;
 			numTiles = 1;
 			m_moveState = MoveState::STANDING;
